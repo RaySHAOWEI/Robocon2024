@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "pid.h": "c",
+        "can.h": "c",
+        "tim.h": "c",
+        "upper.h": "c",
+        "move.h": "c",
+        "rm_motor.h": "c",
+        "action.h": "c",
+        "air_joy.h": "c",
+        "cmsis_os.h": "c",
+        "stdio.h": "c"
+    }
+}
