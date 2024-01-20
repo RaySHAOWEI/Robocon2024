@@ -10,6 +10,7 @@
         "action.h": "c",
         "air_joy.h": "c",
         "cmsis_os.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "cstdio": "c"
     }
 }

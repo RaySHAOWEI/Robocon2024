@@ -402,15 +402,13 @@ void Motor_Control(void)
             case HOMEING_MODE://调用速度模式进行回零，检测停转一段时间后角度积分置零。
             {
                 if(ABS(can1motorRealInfo[i].CURRENT) <= can1motorRealInfo[i].HomingMode.TARGET_TORQUE)   can1motorRealInfo[i].HomingMode.cnt = 0;
-                if(ABS(can1motorRealInfo[i].CURRENT) > can1motorRealInfo[i].HomingMode.TARGET_TORQUE)   can1motorRealInfo[i].HomingMode.cnt++;
+                if(ABS(can1motorRealInfo[i].CURRENT) > 1.5*can1motorRealInfo[i].HomingMode.TARGET_TORQUE)   can1motorRealInfo[i].HomingMode.cnt++;
                 if(can1motorRealInfo[i].HomingMode.cnt >= 30) //计数30次
                 {
                     can1motorRealInfo[i].HomingMode.done_flag=1;//标志位置一，建议使用这个模式的时候加个判断，判断该标志位是1的时候切换其他控制模式。
                     can1motorRealInfo[i].HomingMode.cnt = 0;
                     can1motorRealInfo[i].REAL_ANGLE=0.0f;
                     can1motorRealInfo[i].TARGET_RPM=0.0f;
-                }else{
-                    can1motorRealInfo[i].HomingMode.done_flag=0;
                 }
                 pid_calc(&can1MOTOR_PID_RPM[i],can1motorRealInfo[i].TARGET_RPM,can1motorRealInfo[i].RPM);//速度环
                 break;
@@ -480,15 +478,13 @@ void Motor_Control(void)
             case HOMEING_MODE://调用速度转矩模式，小转矩进行回零，检测停转一段时间后角度积分置零。
             {
                 if(ABS(can2motorRealInfo[i].CURRENT) <= can2motorRealInfo[i].HomingMode.TARGET_TORQUE)   can2motorRealInfo[i].HomingMode.cnt = 0;
-                if(ABS(can2motorRealInfo[i].CURRENT) > can2motorRealInfo[i].HomingMode.TARGET_TORQUE)   can2motorRealInfo[i].HomingMode.cnt++;
+                if(ABS(can2motorRealInfo[i].CURRENT) > 1.5*can2motorRealInfo[i].HomingMode.TARGET_TORQUE)   can2motorRealInfo[i].HomingMode.cnt++;
                 if(can2motorRealInfo[i].HomingMode.cnt >= 30) //计数30次
                 {
                     can2motorRealInfo[i].HomingMode.done_flag=1;//标志位置一，建议使用这个模式的时候加个判断，判断该标志位是1的时候切换其他控制模式。
                     can2motorRealInfo[i].HomingMode.cnt = 0;
                     can2motorRealInfo[i].REAL_ANGLE=0.0f;
                     can2motorRealInfo[i].TARGET_RPM=0.0f;
-                }else{
-                    can2motorRealInfo[i].HomingMode.done_flag=0;
                 }
                 pid_calc(&can2MOTOR_PID_RPM[i],can2motorRealInfo[i].TARGET_RPM,can2motorRealInfo[i].RPM);//速度环
                 break;
