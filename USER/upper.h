@@ -38,23 +38,14 @@ typedef enum {
 #define lift2half -50.0f
 #define lift2top -240.0f
 
-
 void cylinder_control(Cylinder cylinder, uint8_t state);
-
 void lift_motor(float target_pos);
-
 void lift_hold(void);
-
 void flip_motor(float target_angle);
-
 void servos_start(void);
-
 void servos_control(float duty);
-
 void servos_stop(void);
-
 void belt_ctrl(float target_spd);
-
 void belt_logs(void);
 
 #endif //INC_2024RC_B_R1_UPPER_H

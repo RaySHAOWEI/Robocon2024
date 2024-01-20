@@ -133,5 +133,8 @@ void belt_ctrl(float target_spd){
 }
 
 void belt_logs(void){
-    printf(" r1=%d\n r2=%d\n r3=%d\n a1=%d\n a2=%d\n a3=%d\n",can2motorRealInfo[Motor_BELT_MOTOR_1].RPM,can2motorRealInfo[Motor_BELT_MOTOR_2].RPM,can2motorRealInfo[Motor_BELT_MOTOR_3].RPM,can2motorRealInfo[Motor_BELT_MOTOR_1].CURRENT,can2motorRealInfo[Motor_BELT_MOTOR_2].CURRENT,can2motorRealInfo[Motor_BELT_MOTOR_3].CURRENT);
+    motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_1],"вС");
+    motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_2],"ср");
+    motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_3],"ио");
 }
+
