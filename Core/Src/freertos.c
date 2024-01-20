@@ -289,7 +289,6 @@ void Shoot_Task(void *argument)
         cylinder_control(push1, 1);
         cylinder_control(push2, 1);
         // servos_control(100);
-        belt_logs();
         break;
     }
     osDelay(1);

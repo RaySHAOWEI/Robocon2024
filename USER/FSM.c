@@ -9,17 +9,14 @@ CHASSIS_STATE_ITEMS chassis_state = CHASSIS_DISABLE;
 SEED_STATE_ITEMS seed_state = SEED_STATE_DISABLE;
 SHOOT_STATE_ITEMS shoot_state = SHOOT_STATE_INIT;
 
-AREA SEED_AREA = {-0.1f, -0.1f, 50.0f, 50.0f};//瞎写的，期末考核没用
-AREA SHOOT_AREA = {-0.1f, 50.0f, 50.0f, 100.0f};//瞎写的，期末考核没用
+AREA SEED_AREA = {-0.1f, -0.1f, 50.0f, 50.0f};//瞎写的，期末没用
+AREA SHOOT_AREA = {-0.1f, 50.0f, 50.0f, 100.0f};//瞎写的，期末没用
 
 void robot_fsm(void)
 {
     switch (robot_state)
     {
         case ROBOT_STATE_INIT:
-            chassis_state = CHASSIS_DISABLE;
-            seed_state = SEED_STATE_DISABLE;
-            shoot_state = SHOOT_STATE_INIT;
             chassis_init();
             robot_state = ROBOT_STATE_CALIBRATION;
             break;
@@ -88,7 +85,7 @@ void SWA_judge(void)
     }
 }
 
-void auto_switch(void)//期末考核没用
+void auto_switch(void)
 {
     if(ROBOT_CHASSI.world_x < SEED_AREA.x_max && ROBOT_CHASSI.world_x >= SEED_AREA.x_min && ROBOT_CHASSI.world_y < SEED_AREA.y_max && ROBOT_CHASSI.world_y >= SEED_AREA.y_min)
     {
@@ -166,4 +163,4 @@ void SWD_judge(void)
         //路径规划开
         ROBOT_CHASSI.Path_planning = 1;
     }
-} 
+}
