@@ -36,18 +36,18 @@ void cylinder_control(Cylinder cylinder, uint8_t state){
             break;
         case push1:
             if(state == 0){
-                HAL_GPIO_WritePin(load_GPIO_Port, load_Pin, GPIO_PIN_RESET);
+                HAL_GPIO_WritePin(load1_GPIO_Port, load1_Pin, GPIO_PIN_RESET);
             }
             else if(state == 1){
-                HAL_GPIO_WritePin(load_GPIO_Port, load_Pin, GPIO_PIN_SET);
+                HAL_GPIO_WritePin(load1_GPIO_Port, load1_Pin, GPIO_PIN_SET);
             }
             break;
         case push2:
             if(state == 0){
-                HAL_GPIO_WritePin(load_GPIO_Port, load_Pin, GPIO_PIN_RESET);
+                HAL_GPIO_WritePin(load2_GPIO_Port, load2_Pin, GPIO_PIN_RESET);
             }
             else if(state == 1){
-                HAL_GPIO_WritePin(load_GPIO_Port, load_Pin, GPIO_PIN_SET);
+                HAL_GPIO_WritePin(load2_GPIO_Port, load2_Pin, GPIO_PIN_SET);
             }
             break;
         case open:

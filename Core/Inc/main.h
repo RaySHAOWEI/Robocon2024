@@ -70,14 +70,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define finger2_Pin GPIO_PIN_3
-#define finger2_GPIO_Port GPIOA
-#define stretch_Pin GPIO_PIN_4
-#define stretch_GPIO_Port GPIOA
-#define finger1_Pin GPIO_PIN_5
-#define finger1_GPIO_Port GPIOA
-#define load_Pin GPIO_PIN_6
-#define load_GPIO_Port GPIOA
+#define finger2_Pin GPIO_PIN_11
+#define finger2_GPIO_Port GPIOF
+#define stretch_Pin GPIO_PIN_12
+#define stretch_GPIO_Port GPIOF
+#define finger1_Pin GPIO_PIN_13
+#define finger1_GPIO_Port GPIOF
+#define load1_Pin GPIO_PIN_14
+#define load1_GPIO_Port GPIOF
+#define load2_Pin GPIO_PIN_15
+#define load2_GPIO_Port GPIOF
 
 /* USER CODE BEGIN Private defines */
 
