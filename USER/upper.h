@@ -19,7 +19,8 @@ extern TIM_HandleTypeDef htim14;
 typedef enum {
     finger1_3,  //夹苗机构1、3号
     finger2_4,  //夹苗机构2、4号
-    push,       //推球气缸组
+    push1,      //推球气缸1
+    push2,      //推球气缸2
     open        //伸缩气缸组
 }Cylinder;
 

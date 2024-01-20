@@ -24,12 +24,11 @@ typedef enum {
 typedef enum {
     SEED_STATE_DISABLE,         //收缩状态
     SEED_STATE_INIT,            //夹苗机构初始化
-    SEED_STATE_PEEK,            //夹苗机构夹取动作
-
+    
     SEED_STATE_PEEK_DOWN,       //夹苗机构夹取
     SEED_STATE_PEEK_UP,         //夹苗机构上升（离地7cm）
+   
     SEED_STATE_PRE_PUT,         //夹苗机构预下降（离地1cm）
-    
     SEED_STATE_PUT              //夹苗机构放苗（只放一边）
 }SEED_STATE_ITEMS;//夹苗机构状态
 

@@ -238,17 +238,28 @@ void Seed_Task(void *argument)
         cylinder_control(finger1_3, 0);
         cylinder_control(finger2_4, 0);
         break;
-      case SEED_STATE_PEEK:
-        /* 取苗 */
+
+      case SEED_STATE_PEEK_DOWN:
+        /* 夹苗下 */
+        lift_motor(lift2ground);
         cylinder_control(finger1_3, 1);
         cylinder_control(finger2_4, 1);
-        vTaskDelay(500);
+        seed_state = SEED_STATE_PEEK_UP;
+        break;
+      case SEED_STATE_PEEK_UP:
+        /* 夹苗上 */
+        vTaskDelay(100);
         lift_motor(lift2top);
+        break;
+
+      case SEED_STATE_PRE_PUT:
+        /* 预备放苗 */
+        lift_motor(lift2half);
+        seed_state = SEED_STATE_PUT;
         break;
       case SEED_STATE_PUT:
         /* 13放苗 */
-        lift_motor(lift2half);
-        vTaskDelay(500);
+        vTaskDelay(100);
         cylinder_control(finger1_3, 0);
         break;
     }
@@ -275,8 +286,9 @@ void Shoot_Task(void *argument)
       case SHOOT_STATE_INIT:
         /*初始化*/
         servos_control(180);
-        // cylinder_control(push, 0);
-        // belt_ctrl(0);
+        cylinder_control(push1, 0);
+        cylinder_control(push2, 0);
+        belt_ctrl(0);
         break;
       case SHOOT_STATE_LOAD:
         /*取球*/
@@ -284,9 +296,10 @@ void Shoot_Task(void *argument)
         break;
       case SHOOT_STATE_SHOOTING:
         /*发射*/
-        // belt_ctrl(1000);
-        // // vTaskDelay(500);
-        // cylinder_control(push, 1);
+        belt_ctrl(1000);
+        vTaskDelay(500);
+        cylinder_control(push1, 1);
+        cylinder_control(push2, 1);
         servos_control(100);
         break;
     }

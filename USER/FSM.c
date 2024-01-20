@@ -135,7 +135,7 @@ void SWC_judge(void)
     {
         if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
-            seed_state = SEED_STATE_PEEK;
+            seed_state = SEED_STATE_PEEK_DOWN;
         }
         else if (robot_state == ROBOT_STATE_SHOOT_CTRL)
         {
