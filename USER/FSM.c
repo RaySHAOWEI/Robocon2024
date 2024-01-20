@@ -9,8 +9,8 @@ CHASSIS_STATE_ITEMS chassis_state = CHASSIS_DISABLE;
 SEED_STATE_ITEMS seed_state = SEED_STATE_DISABLE;
 SHOOT_STATE_ITEMS shoot_state = SHOOT_STATE_INIT;
 
-AREA SEED_AREA = {-0.1f, -0.1f, 50.0f, 50.0f};//瞎写的，待测
-AREA SHOOT_AREA = {-0.1f, 50.0f, 50.0f, 100.0f};//瞎写的，待测
+AREA SEED_AREA = {-0.1f, -0.1f, 50.0f, 50.0f};//瞎写的，期末考核没用
+AREA SHOOT_AREA = {-0.1f, 50.0f, 50.0f, 100.0f};//瞎写的，期末考核没用
 
 void robot_fsm(void)
 {
@@ -88,7 +88,7 @@ void SWA_judge(void)
     }
 }
 
-void auto_switch(void)
+void auto_switch(void)//期末考核没用
 {
     if(ROBOT_CHASSI.world_x < SEED_AREA.x_max && ROBOT_CHASSI.world_x >= SEED_AREA.x_min && ROBOT_CHASSI.world_y < SEED_AREA.y_max && ROBOT_CHASSI.world_y >= SEED_AREA.y_min)
     {
@@ -104,8 +104,7 @@ void SWB_judge(void)
 {
     if (SWB < 1200)
     {
-        // auto_switch();
-        // //根据action全场定位判断当前是哪个模式
+        // auto_switch();//根据action全场定位判断当前是哪个模式
         robot_state = ROBOT_STATE_AUTO_CTRL;
     }
     else if (1300 < SWB && SWB < 1700)
@@ -135,7 +134,7 @@ void SWC_judge(void)
     {
         if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
-            seed_state = SEED_STATE_PEEK_DOWN;
+            seed_state = SEED_STATE_PEEK;
         }
         else if (robot_state == ROBOT_STATE_SHOOT_CTRL)
         {

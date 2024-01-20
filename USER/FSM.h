@@ -24,18 +24,13 @@ typedef enum {
 typedef enum {
     SEED_STATE_DISABLE,         //收缩状态
     SEED_STATE_INIT,            //夹苗机构初始化
-    
-    SEED_STATE_PEEK_DOWN,       //夹苗机构夹取
-    SEED_STATE_PEEK_UP,         //夹苗机构上升（离地7cm）
-   
-    SEED_STATE_PRE_PUT,         //夹苗机构预下降（离地1cm）
+    SEED_STATE_PEEK,       //夹苗机构夹取
     SEED_STATE_PUT              //夹苗机构放苗（只放一边）
 }SEED_STATE_ITEMS;//夹苗机构状态
 
 typedef enum {
     SHOOT_STATE_INIT,           //射球机构初始化
     SHOOT_STATE_LOAD,           //射球机构装填
-    SHOOT_STATE_SPEED_UP,      //射球机构PPR发射
     SHOOT_STATE_SHOOTING        //射球机构发射
 }SHOOT_STATE_ITEMS;//射球机构状态
 

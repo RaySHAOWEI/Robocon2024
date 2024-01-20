@@ -85,7 +85,6 @@ void lift_hold(void){
     Motor_Control();
 }
 
-//0为收起, 1为放下, 2为半放
 void flip_motor(float target_angle){
     lim(&target_angle,Flip2ground,Flip2top);
     if (target_angle == Flip2ground)
@@ -137,4 +136,3 @@ void belt_logs(void){
     motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_2],"右");
     motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_3],"上");
 }
-

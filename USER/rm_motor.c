@@ -406,6 +406,7 @@ void Motor_Control(void)
                 if(can1motorRealInfo[i].HomingMode.cnt >= 30) //计数30次
                 {
                     can1motorRealInfo[i].HomingMode.done_flag=1;//标志位置一，建议使用这个模式的时候加个判断，判断该标志位是1的时候切换其他控制模式。
+                    can1motorRealInfo[i].HomingMode.cnt = 0;
                     can1motorRealInfo[i].REAL_ANGLE=0.0f;
                     can1motorRealInfo[i].TARGET_RPM=0.0f;
                 }else{
@@ -483,6 +484,7 @@ void Motor_Control(void)
                 if(can2motorRealInfo[i].HomingMode.cnt >= 30) //计数30次
                 {
                     can2motorRealInfo[i].HomingMode.done_flag=1;//标志位置一，建议使用这个模式的时候加个判断，判断该标志位是1的时候切换其他控制模式。
+                    can2motorRealInfo[i].HomingMode.cnt = 0;
                     can2motorRealInfo[i].REAL_ANGLE=0.0f;
                     can2motorRealInfo[i].TARGET_RPM=0.0f;
                 }else{
