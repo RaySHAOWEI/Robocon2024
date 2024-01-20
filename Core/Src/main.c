@@ -194,6 +194,10 @@ int fputc(int ch, FILE *f)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+  // if (htim->Instance == TIM1)
+  // {
+  //     // belt_logs();
+  // }
   if (htim->Instance == TIM2)
   {
       LAST_TIME_ISR_CNT = TIME_ISR_CNT;

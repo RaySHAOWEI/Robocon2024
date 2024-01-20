@@ -74,12 +74,14 @@ void Error_Handler(void);
 #define finger2_GPIO_Port GPIOF
 #define stretch_Pin GPIO_PIN_12
 #define stretch_GPIO_Port GPIOF
-#define finger1_Pin GPIO_PIN_13
-#define finger1_GPIO_Port GPIOF
+#define load2_Pin GPIO_PIN_13
+#define load2_GPIO_Port GPIOF
 #define load1_Pin GPIO_PIN_14
 #define load1_GPIO_Port GPIOF
-#define load2_Pin GPIO_PIN_15
-#define load2_GPIO_Port GPIOF
+#define test_Pin GPIO_PIN_15
+#define test_GPIO_Port GPIOF
+#define finger1_Pin GPIO_PIN_0
+#define finger1_GPIO_Port GPIOG
 
 /* USER CODE BEGIN Private defines */
 

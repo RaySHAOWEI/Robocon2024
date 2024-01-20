@@ -58,6 +58,14 @@ void cylinder_control(Cylinder cylinder, uint8_t state){
                 HAL_GPIO_WritePin(stretch_GPIO_Port, stretch_Pin, GPIO_PIN_SET);
             }
             break;
+        case test:
+            if(state == 0){
+                HAL_GPIO_WritePin(test_GPIO_Port, test_Pin, GPIO_PIN_RESET);
+            }
+            else if(state == 1){
+                HAL_GPIO_WritePin(test_GPIO_Port, test_Pin, GPIO_PIN_SET);
+            }
+            break;
     }
 }
 

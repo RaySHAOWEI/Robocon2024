@@ -21,7 +21,8 @@ typedef enum {
     finger2_4,  //夹苗机构2、4号
     push1,      //推球气缸1
     push2,      //推球气缸2
-    open        //伸缩气缸组
+    open,       //伸缩气缸组
+    test        //测试用
 }Cylinder;
 
 /**

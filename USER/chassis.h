@@ -52,5 +52,6 @@ void chassis_init(void);
 void Robot_Wheels_RPM_calculate(void);
 void chassis_stop(void);
 void Free_Control(void);
+void free_ctrl_change(void);
 
 #endif //INC_2024RC_B_R1_CHASSIS_H

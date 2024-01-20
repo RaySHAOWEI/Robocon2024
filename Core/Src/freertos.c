@@ -199,7 +199,13 @@ void Chassis_Task(void *argument)
       ROBOT_CHASSI.Vy_MAX = 0.4f;
 	    ROBOT_CHASSI.Vw_MAX = 0.5f;
     }
-    Free_Control();
+    if (robot_state == ROBOT_STATE_SEED_CTRL)
+    {
+      free_ctrl_change();
+    }
+    else{
+      Free_Control();
+    }
     Robot_Wheels_RPM_calculate();
     Motor_Control();
     osDelay(1);
@@ -226,7 +232,7 @@ void Seed_Task(void *argument)
         /*收缩状态*/
         // flip_motor(Flip2ground);
         // lift_motor(lift2ground);
-        cylinder_control(open, 0);
+        cylinder_control(open, 1);
         cylinder_control(finger1_3, 0);
         cylinder_control(finger2_4, 0);
         break;
@@ -234,22 +240,31 @@ void Seed_Task(void *argument)
         /*初始化、24放苗*/
         flip_motor(Flip2ground);
         lift_motor(lift2ground);
-        cylinder_control(open, 1);
+        cylinder_control(open, 0);
         cylinder_control(finger1_3, 0);
         cylinder_control(finger2_4, 0);
+        // cylinder_control(push1, 0);
+        // cylinder_control(push2, 0);
+        // cylinder_control(test, 0);
         break;
       case SEED_STATE_PEEK:
         /* 夹苗下 */
         cylinder_control(finger1_3, 1);
         cylinder_control(finger2_4, 1);
-        vTaskDelay(100);
+        vTaskDelay(400);
         lift_motor(lift2top);
+        // cylinder_control(open, 1);
+        // cylinder_control(push1, 1);
+        // cylinder_control(push2, 1);
+        // cylinder_control(finger1_3, 1);
+        // cylinder_control(finger2_4, 1);
+        // cylinder_control(test, 1);
         break;
       case SEED_STATE_PUT:
         /* 13放苗 */
         lift_motor(lift2half);
-        vTaskDelay(100);
-        cylinder_control(finger1_3, 0);
+        vTaskDelay(600);
+        cylinder_control(finger2_4, 0);
         break;
     }
     osDelay(1);
