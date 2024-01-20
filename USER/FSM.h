@@ -35,6 +35,7 @@ typedef enum {
 typedef enum {
     SHOOT_STATE_INIT,           //射球机构初始化
     SHOOT_STATE_LOAD,           //射球机构装填
+    SHOOT_STATE_SPEED_UP,      //射球机构PPR发射
     SHOOT_STATE_SHOOTING        //射球机构发射
 }SHOOT_STATE_ITEMS;//射球机构状态
 

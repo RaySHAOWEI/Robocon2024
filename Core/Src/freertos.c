@@ -294,13 +294,18 @@ void Shoot_Task(void *argument)
         /*取球*/
         servos_control(155);
         break;
-      case SHOOT_STATE_SHOOTING:
-        /*发射*/
+      case SHOOT_STATE_SPEED_UP:
+        /*加速*/
         belt_ctrl(1000);
         vTaskDelay(500);
+        shoot_state = SHOOT_STATE_SHOOTING;
+        break;
+      case SHOOT_STATE_SHOOTING:
+        /*发射*/
         cylinder_control(push1, 1);
         cylinder_control(push2, 1);
         servos_control(100);
+        belt_logs();
         break;
     }
     osDelay(1);

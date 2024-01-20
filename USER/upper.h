@@ -55,4 +55,6 @@ void servos_stop(void);
 
 void belt_ctrl(float target_spd);
 
+void belt_logs(void);
+
 #endif //INC_2024RC_B_R1_UPPER_H

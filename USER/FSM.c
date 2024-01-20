@@ -28,7 +28,6 @@ void robot_fsm(void)
             chassis_state = CHASSIS_DISABLE;
             seed_state = SEED_STATE_INIT;
             if (SWA != 0 && SWB != 0 && SWC != 0 && SWD != 0){//确认航模初始化成功
-                robot_state = ROBOT_STATE_AUTO_CTRL;
                 SWA_judge();
                 SWB_judge();
                 SWC_judge();
@@ -105,8 +104,9 @@ void SWB_judge(void)
 {
     if (SWB < 1200)
     {
-        auto_switch();
-        //根据action全场定位判断当前是哪个模式
+        // auto_switch();
+        // //根据action全场定位判断当前是哪个模式
+        robot_state = ROBOT_STATE_AUTO_CTRL;
     }
     else if (1300 < SWB && SWB < 1700)
     {
@@ -167,4 +167,4 @@ void SWD_judge(void)
         //路径规划开
         ROBOT_CHASSI.Path_planning = 1;
     }
-}
+} 

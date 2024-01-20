@@ -110,9 +110,13 @@ void servos_start(void){
     HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1);
 }
 
+int duty_logs = 0;
 void servos_control(float duty){
-    __HAL_TIM_SET_COMPARE(&htim13, TIM_CHANNEL_1, (-1 * duty + 230) * 2000 / 180 + 500);//50 75 130
-    __HAL_TIM_SET_COMPARE(&htim14, TIM_CHANNEL_1, duty * 2000 / 180 + 500);//180 155 100
+    if(duty_logs != duty){
+        duty_logs = duty;
+        __HAL_TIM_SET_COMPARE(&htim13, TIM_CHANNEL_1, (-1 * duty + 230) * 100 / 9 + 500);//50 75 130
+        __HAL_TIM_SET_COMPARE(&htim14, TIM_CHANNEL_1, duty *  100 / 9 + 500);//180 155 100
+    }
 }
 
 void servos_stop(void){
@@ -126,4 +130,8 @@ void belt_ctrl(float target_spd){
     Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_2], belt_spd[1]);//ср
     Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_3], belt_spd[2]);//ио
     Motor_Control();
+}
+
+void belt_logs(void){
+    printf(" r1=%d\n r2=%d\n r3=%d\n a1=%d\n a2=%d\n a3=%d\n",can2motorRealInfo[Motor_BELT_MOTOR_1].RPM,can2motorRealInfo[Motor_BELT_MOTOR_2].RPM,can2motorRealInfo[Motor_BELT_MOTOR_3].RPM,can2motorRealInfo[Motor_BELT_MOTOR_1].CURRENT,can2motorRealInfo[Motor_BELT_MOTOR_2].CURRENT,can2motorRealInfo[Motor_BELT_MOTOR_3].CURRENT);
 }
