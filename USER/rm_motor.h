@@ -122,13 +122,13 @@ void Velocity_Planning_setpos(MOTOR_REAL_INFO *M3508_MOTOR,float Pstart,float Pe
 void motor_info_output(MOTOR_REAL_INFO *motor, char *name);
 // M3508返回的电机真实信息
 
-extern MOTOR_REAL_INFO can1motorRealInfo[7];//底盘4个3508电机m = 0 1 2 3; 云台2个6020电机m = 4 5（6020驱动器id应当设置为1 2）
-extern MOTOR_REAL_INFO can2motorRealInfo[7];//履带2个3508电机m = 0 1; 夹爪翻转1个3508电机m = 2; 凸轮2个3508电机m = 3 4; 炮塔云台1个3508电机m = 5
+extern MOTOR_REAL_INFO can1motorRealInfo[7];//can1
+extern MOTOR_REAL_INFO can2motorRealInfo[7];//can2
 
-extern PID_T can1MOTOR_PID_RPM[7]; //速度pid信息
+extern PID_T can1MOTOR_PID_RPM[7];  //速度pid信息
 extern PID_T can1MOTOR_PID_POS[7];	//位置pid信息
-
-extern PID_T can2MOTOR_PID_RPM[7]; //速度pid信息
+ 
+extern PID_T can2MOTOR_PID_RPM[7];  //速度pid信息
 extern PID_T can2MOTOR_PID_POS[7];	//位置pid信息
 
 #endif //INC_2024RC_B_R1_RM_MOTOR_H
