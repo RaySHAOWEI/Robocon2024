@@ -31,26 +31,21 @@ typedef enum//瞎写的之后讨论一下怎么个事。。。
     MOVE_STOP,
 
     //取苗点
-    MOVE_2_GET_SEED_POINT_1,
-    MOVE_2_GET_SEED_POINT_2,
-    MOVE_2_GET_SEED_POINT_3,
+    MOVE_2_GET_SEED_POINT,
+
 
     // 种苗点
-    MOVE_2_SEED_POINT_1,
-    MOVE_2_SEED_POINT_2,
-    MOVE_2_SEED_POINT_3,
-    MOVE_2_SEED_POINT_4,
-    MOVE_2_SEED_POINT_5,
-    MOVE_2_SEED_POINT_6,
-
-    // 取球点
-    MOVE_2_GET_BALL_POINT_1,
-    MOVE_2_GET_BALL_POINT_2,
-    MOVE_2_GET_BALL_POINT_3,
+    MOVE_2_SEED_POINT,
 
 
-    //射球点
-    MOVE_2_SHOOT_POINT_1,
+    // // 取球点
+    // MOVE_2_GET_BALL_POINT_1,
+    // MOVE_2_GET_BALL_POINT_2,
+    // MOVE_2_GET_BALL_POINT_3,
+
+
+    // //射球点
+    // MOVE_2_SHOOT_POINT_1,
 
     // 启动区
     MOVE_2_RESTART

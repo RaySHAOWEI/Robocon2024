@@ -6,6 +6,7 @@
 #define UPPER_TEST_USR_UART_H
 
 #include "usart.h"
+#include <string.h>
 
 //cup为小端模式存储，也就是在存储的时候，低位被存在0字节，高位在1字节
 #define BYTE0(dwTemp)       (*(char *)(&dwTemp))	        //取出int型变量的低字节

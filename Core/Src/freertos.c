@@ -321,11 +321,44 @@ void Shoot_Task(void *argument)
 void Move_Task(void *argument)
 {
   /* USER CODE BEGIN Move_Task */
+  // 绝对延时
+	static portTickType move_xLastWakeTime;
+	const portTickType move_xFrequency = pdMS_TO_TICKS(10); // 延时10ms
+	move_xLastWakeTime = xTaskGetTickCount(); // 获取当前计数值
+	
+	float move_time_counter = 0;
   /* Infinite loop */
   for(;;)
   {
     //这段代码用于调用路径规划
-    osDelay(1);
+    switch (MOVE_STATE)
+    {
+    case MOVE_STOP:
+      break;
+      
+    case MOVE_2_GET_SEED_POINT:
+      move_time_counter += 0.01f;
+      if(PathPlan(move_time_counter, 4.0, 5+1, X, Y, Yaw))
+      {
+        move_time_counter = 0;
+        MOVE_STATE = MOVE_STOP;
+      }
+      break;
+
+    case MOVE_2_SEED_POINT:
+      move_time_counter += 0.01f;
+      if(PathPlan(move_time_counter, 7.5, 5+1, X1, Y1, Yaw1))
+      {
+        move_time_counter = 0;
+        MOVE_STATE = MOVE_STOP;
+      }
+      break;
+
+    case MOVE_2_RESTART:
+      break;
+    }
+    // osDelay(1);
+    vTaskDelayUntil(&move_xLastWakeTime, move_xFrequency);
   }
   /* USER CODE END Move_Task */
 }

@@ -36,3 +36,11 @@ void sent_data(int16_t A,int16_t B,int16_t C,int16_t D)
 	
 	for(i=0;i<_cnt;i++) HAL_UART_Transmit(&huart1,BUFF,_cnt,100);//串口发送数据
 }
+
+/*使用方法：
+*	int16_t A,B,C,D;
+	sent_data(A,B,C,D);
+	可以同时发送4个int16_t类型的数据
+	例如：
+	sent_data(can2motorRealInfo[1].RPM,can2motorRealInfo[2].RPM,can2motorRealInfo[1].CURRENT,can2motorRealInfo[2].CURRENT);
+*/
