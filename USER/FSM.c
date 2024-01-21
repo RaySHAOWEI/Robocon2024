@@ -136,7 +136,7 @@ void SWC_judge(void)
     {
         if (robot_state == ROBOT_STATE_AUTO_CTRL)
         {
-            MOVE_STATE = MOVE_2_GET_SEED_POINT;//到达取苗点
+            MOVE_STATE = MOVE_2_GET_SEED_POINT;//前往取苗点
         }
         else if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
@@ -151,7 +151,7 @@ void SWC_judge(void)
     {
         if (robot_state == ROBOT_STATE_AUTO_CTRL)
         {
-            MOVE_STATE = MOVE_2_SEED_POINT;//到达放苗点
+            MOVE_STATE = MOVE_2_SEED_POINT;//前往放苗点
         }
         else if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
