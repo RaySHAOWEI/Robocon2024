@@ -13,9 +13,9 @@ ROBOT_CHASSIS ROBOT_CHASSI;
 void chassis_init(void)
 {
 	//速度模式初始化
-    ROBOT_CHASSI.Vx_MAX = 1.6f;
-    ROBOT_CHASSI.Vy_MAX = 1.6f;
-	ROBOT_CHASSI.Vw_MAX = 2.0f;
+    ROBOT_CHASSI.Vx_MAX = 0.0f;
+    ROBOT_CHASSI.Vy_MAX = 0.0f;
+	ROBOT_CHASSI.Vw_MAX = 0.0f;
 
 	ROBOT_CHASSI.Vx = 0;
 	ROBOT_CHASSI.Vy = 0;
@@ -118,17 +118,17 @@ void Free_Control(void)
 {
 	if(ABS(YaoGan_LEFT_X-1500) > 20){
 		ROBOT_CHASSI.Vx = ((YaoGan_LEFT_X-1500.0f)/500) * ROBOT_CHASSI.Vx_MAX;
-	}else if(ABS(YaoGan_LEFT_X-1500) <= 10){
+	}else if(ABS(YaoGan_LEFT_X-1500) <= 50){
 		ROBOT_CHASSI.Vx = 0;
 	}
 	if(ABS(YaoGan_LEFT_Y-1500) > 20){
 		ROBOT_CHASSI.Vy = ((YaoGan_LEFT_Y-1500.0f)/500) * ROBOT_CHASSI.Vy_MAX;
-	}else if(ABS(YaoGan_LEFT_Y-1500) <= 10){
+	}else if(ABS(YaoGan_LEFT_Y-1500) <= 50){
 		ROBOT_CHASSI.Vy = 0;
 	}
 	if(ABS(YaoGan_RIGHT_X-1500) > 20){
 		ROBOT_CHASSI.Vw = ((YaoGan_RIGHT_X-1500.0f)/500) * ROBOT_CHASSI.Vw_MAX;
-	}else if(ABS(YaoGan_RIGHT_X-1500) <= 10){
+	}else if(ABS(YaoGan_RIGHT_X-1500) <= 50){
 		ROBOT_CHASSI.Vw = 0;
 	}
 }
@@ -137,17 +137,17 @@ void free_ctrl_change(void)
 {
 	if(ABS(YaoGan_LEFT_X-1500) > 20){
 		ROBOT_CHASSI.Vy = -((YaoGan_LEFT_X-1500.0f)/500) * ROBOT_CHASSI.Vy_MAX;
-	}else if(ABS(YaoGan_LEFT_X-1500) <= 10){
+	}else if(ABS(YaoGan_LEFT_X-1500) <= 50){
 		ROBOT_CHASSI.Vy = 0;
 	}
 	if(ABS(YaoGan_LEFT_Y-1500) > 20){
 		ROBOT_CHASSI.Vx = ((YaoGan_LEFT_Y-1500.0f)/500) * ROBOT_CHASSI.Vx_MAX;
-	}else if(ABS(YaoGan_LEFT_Y-1500) <= 10){
+	}else if(ABS(YaoGan_LEFT_Y-1500) <= 50){
 		ROBOT_CHASSI.Vx = 0;
 	}
 	if(ABS(YaoGan_RIGHT_X-1500) > 20){
 		ROBOT_CHASSI.Vw = ((YaoGan_RIGHT_X-1500.0f)/500) * ROBOT_CHASSI.Vw_MAX;
-	}else if(ABS(YaoGan_RIGHT_X-1500) <= 10){
+	}else if(ABS(YaoGan_RIGHT_X-1500) <= 50){
 		ROBOT_CHASSI.Vw = 0;
 	}
 }

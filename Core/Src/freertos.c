@@ -75,20 +75,6 @@ const osThreadAttr_t Shoot_attributes = {
   .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
-/* Definitions for Move */
-osThreadId_t MoveHandle;
-const osThreadAttr_t Move_attributes = {
-  .name = "Move",
-  .stack_size = 512 * 4,
-  .priority = (osPriority_t) osPriorityBelowNormal,
-};
-/* Definitions for Motor */
-osThreadId_t MotorHandle;
-const osThreadAttr_t Motor_attributes = {
-  .name = "Motor",
-  .stack_size = 512 * 4,
-  .priority = (osPriority_t) osPriorityAboveNormal,
-};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -99,8 +85,6 @@ void FSM_Task(void *argument);
 void Chassis_Task(void *argument);
 void Seed_Task(void *argument);
 void Shoot_Task(void *argument);
-void Move_Task(void *argument);
-void Motor_task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -142,12 +126,6 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of Shoot */
   ShootHandle = osThreadNew(Shoot_Task, NULL, &Shoot_attributes);
-
-  /* creation of Move */
-  MoveHandle = osThreadNew(Move_Task, NULL, &Move_attributes);
-
-  /* creation of Motor */
-  MotorHandle = osThreadNew(Motor_task, NULL, &Motor_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -218,7 +196,7 @@ void Chassis_Task(void *argument)
       Free_Control();
     }
     Robot_Wheels_RPM_calculate();
-    Motor_Control();
+	Motor_Control();
     osDelay(1);
   }
   /* USER CODE END Chassis_Task */
@@ -243,15 +221,15 @@ void Seed_Task(void *argument)
         /*收缩状态*/
         // flip_motor(Flip2ground);
         // lift_motor(lift2ground);
-        cylinder_control(open, 1);
+//        cylinder_control(open, 1);
         cylinder_control(finger1_3, 0);
         cylinder_control(finger2_4, 0);
         break;
       case SEED_STATE_INIT:
         /*初始化、24放苗*/
-        flip_motor(Flip2ground);
+//        flip_motor(Flip2ground);
         lift_motor(lift2ground);
-        cylinder_control(open, 0);
+//        cylinder_control(open, 0);
         cylinder_control(finger1_3, 0);
         cylinder_control(finger2_4, 0);
         // cylinder_control(push1, 0);
@@ -321,76 +299,6 @@ void Shoot_Task(void *argument)
     osDelay(1);
   }
   /* USER CODE END Shoot_Task */
-}
-
-/* USER CODE BEGIN Header_Move_Task */
-/**
-* @brief Function implementing the Move thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Move_Task */
-void Move_Task(void *argument)
-{
-  /* USER CODE BEGIN Move_Task */
-  // 绝对延时
-	// static portTickType move_xLastWakeTime;
-	// const portTickType move_xFrequency = pdMS_TO_TICKS(10); // 延时10ms
-	// move_xLastWakeTime = xTaskGetTickCount(); // 获取当前计数值
-	
-	// float move_time_counter = 0;
-  /* Infinite loop */
-  for(;;)
-  {
-    //这段代码用于调用路径规划
-    // switch (MOVE_STATE)
-    // {
-    // case MOVE_STOP:
-    //   break;
-
-    // case MOVE_2_GET_SEED_POINT:
-    //   move_time_counter += 0.01f;
-    //   if(PathPlan(move_time_counter, 4.0, 5+1, X, Y, Yaw))
-    //   {
-    //     move_time_counter = 0;
-    //     MOVE_STATE = MOVE_STOP;
-    //   }
-    //   break;
-
-    // case MOVE_2_SEED_POINT:
-    //   move_time_counter += 0.01f;
-    //   if(PathPlan(move_time_counter, 7.5, 5+1, X1, Y1, Yaw1))
-    //   {
-    //     move_time_counter = 0;
-    //     MOVE_STATE = MOVE_STOP;
-    //   }
-    //   break;
-
-    // case MOVE_2_RESTART:
-    //   break;
-    // }
-    // // osDelay(1);
-    // vTaskDelayUntil(&move_xLastWakeTime, move_xFrequency);
-  }
-  /* USER CODE END Move_Task */
-}
-
-/* USER CODE BEGIN Header_Motor_task */
-/**
-* @brief Function implementing the Motor thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Motor_task */
-void Motor_task(void *argument)
-{
-  /* USER CODE BEGIN Motor_task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END Motor_task */
 }
 
 /* Private application code --------------------------------------------------*/

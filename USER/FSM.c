@@ -118,11 +118,7 @@ void SWC_judge(void)
 {
     if (SWC < 1200)
     {
-        if (robot_state == ROBOT_STATE_AUTO_CTRL)
-        {
-            //啥也不干
-        }
-        else if (robot_state == ROBOT_STATE_SEED_CTRL)
+        if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
             seed_state = SEED_STATE_INIT;
         }
@@ -133,11 +129,7 @@ void SWC_judge(void)
     }
     else if (1300 < SWC && SWC < 1700)
     {
-        if (robot_state == ROBOT_STATE_AUTO_CTRL)
-        {
-            // MOVE_STATE = MOVE_2_GET_SEED_POINT;//前往取苗点
-        }
-        else if (robot_state == ROBOT_STATE_SEED_CTRL)
+        if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
             seed_state = SEED_STATE_PEEK;
         }
@@ -148,11 +140,7 @@ void SWC_judge(void)
     }
     else if (SWC > 1800)
     {
-        if (robot_state == ROBOT_STATE_AUTO_CTRL)
-        {
-            // MOVE_STATE = MOVE_2_SEED_POINT;//前往放苗点
-        }
-        else if (robot_state == ROBOT_STATE_SEED_CTRL)
+        if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
             seed_state = SEED_STATE_PUT;
         }

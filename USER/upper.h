@@ -37,7 +37,7 @@ typedef enum {
  */
 #define lift2ground 0.0f
 #define lift2half -50.0f
-#define lift2top -240.0f
+#define lift2top -250.0f
 
 void cylinder_control(Cylinder cylinder, uint8_t state);
 void lift_motor(float target_pos);
