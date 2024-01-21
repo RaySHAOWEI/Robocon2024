@@ -106,7 +106,7 @@ int main(void)
   can_filter_init();
   can1_config();
   can2_config();
-  // servos_start();
+
   /* USER CODE END 2 */
 
   /* Init scheduler */

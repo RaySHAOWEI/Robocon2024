@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "move.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -82,6 +82,13 @@ const osThreadAttr_t Move_attributes = {
   .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityBelowNormal,
 };
+/* Definitions for Motor */
+osThreadId_t MotorHandle;
+const osThreadAttr_t Motor_attributes = {
+  .name = "Motor",
+  .stack_size = 512 * 4,
+  .priority = (osPriority_t) osPriorityAboveNormal,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -93,6 +100,7 @@ void Chassis_Task(void *argument);
 void Seed_Task(void *argument);
 void Shoot_Task(void *argument);
 void Move_Task(void *argument);
+void Motor_task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -137,6 +145,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of Move */
   MoveHandle = osThreadNew(Move_Task, NULL, &Move_attributes);
+
+  /* creation of Motor */
+  MotorHandle = osThreadNew(Motor_task, NULL, &Motor_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -290,8 +301,8 @@ void Shoot_Task(void *argument)
       case SHOOT_STATE_INIT:
         /*初始化*/
         // servos_control(180);
-        cylinder_control(push1, 0);
-        cylinder_control(push2, 0);
+        // cylinder_control(push1, 0);
+        // cylinder_control(push2, 0);
         belt_ctrl(0);
         break;
       case SHOOT_STATE_LOAD:
@@ -301,8 +312,9 @@ void Shoot_Task(void *argument)
         break;
       case SHOOT_STATE_SHOOTING:
         /*发射*/
-        cylinder_control(push1, 1);
-        cylinder_control(push2, 1);
+        belt_logs();
+        // cylinder_control(push1, 1);
+        // cylinder_control(push2, 1);
         // servos_control(100);
         break;
     }
@@ -322,45 +334,63 @@ void Move_Task(void *argument)
 {
   /* USER CODE BEGIN Move_Task */
   // 绝对延时
-	static portTickType move_xLastWakeTime;
-	const portTickType move_xFrequency = pdMS_TO_TICKS(10); // 延时10ms
-	move_xLastWakeTime = xTaskGetTickCount(); // 获取当前计数值
+	// static portTickType move_xLastWakeTime;
+	// const portTickType move_xFrequency = pdMS_TO_TICKS(10); // 延时10ms
+	// move_xLastWakeTime = xTaskGetTickCount(); // 获取当前计数值
 	
-	float move_time_counter = 0;
+	// float move_time_counter = 0;
   /* Infinite loop */
   for(;;)
   {
     //这段代码用于调用路径规划
-    switch (MOVE_STATE)
-    {
-    case MOVE_STOP:
-      break;
-      
-    case MOVE_2_GET_SEED_POINT:
-      move_time_counter += 0.01f;
-      if(PathPlan(move_time_counter, 4.0, 5+1, X, Y, Yaw))
-      {
-        move_time_counter = 0;
-        MOVE_STATE = MOVE_STOP;
-      }
-      break;
+    // switch (MOVE_STATE)
+    // {
+    // case MOVE_STOP:
+    //   break;
 
-    case MOVE_2_SEED_POINT:
-      move_time_counter += 0.01f;
-      if(PathPlan(move_time_counter, 7.5, 5+1, X1, Y1, Yaw1))
-      {
-        move_time_counter = 0;
-        MOVE_STATE = MOVE_STOP;
-      }
-      break;
+    // case MOVE_2_GET_SEED_POINT:
+    //   move_time_counter += 0.01f;
+    //   if(PathPlan(move_time_counter, 4.0, 5+1, X, Y, Yaw))
+    //   {
+    //     move_time_counter = 0;
+    //     MOVE_STATE = MOVE_STOP;
+    //   }
+    //   break;
 
-    case MOVE_2_RESTART:
-      break;
-    }
-    // osDelay(1);
-    vTaskDelayUntil(&move_xLastWakeTime, move_xFrequency);
+    // case MOVE_2_SEED_POINT:
+    //   move_time_counter += 0.01f;
+    //   if(PathPlan(move_time_counter, 7.5, 5+1, X1, Y1, Yaw1))
+    //   {
+    //     move_time_counter = 0;
+    //     MOVE_STATE = MOVE_STOP;
+    //   }
+    //   break;
+
+    // case MOVE_2_RESTART:
+    //   break;
+    // }
+    // // osDelay(1);
+    // vTaskDelayUntil(&move_xLastWakeTime, move_xFrequency);
   }
   /* USER CODE END Move_Task */
+}
+
+/* USER CODE BEGIN Header_Motor_task */
+/**
+* @brief Function implementing the Motor thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Motor_task */
+void Motor_task(void *argument)
+{
+  /* USER CODE BEGIN Motor_task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END Motor_task */
 }
 
 /* Private application code --------------------------------------------------*/

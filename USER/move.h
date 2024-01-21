@@ -54,9 +54,9 @@ typedef enum//瞎写的之后讨论一下怎么个事。。。
 
 extern MOVE_STATE_ITEMS MOVE_STATE;
 
-extern PID_T yaw_pid;
-extern PID_T point_X_pid;
-extern PID_T point_Y_pid;
+// extern PID_T yaw_pid;
+// extern PID_T point_X_pid;
+// extern PID_T point_Y_pid;
 
 void MoveInit(void);
 
@@ -64,7 +64,7 @@ void YawAdjust(float Target_angle);
 
 void LockupPoint(float POS_X, float POS_Y, float POS_YAW);
 
-void PDController(PATH_TYPEDEF target_point, ROBOT_REAL_POS robot_now_pos);
+// void PDController(PATH_TYPEDEF target_point, ROBOT_REAL_POS robot_now_pos);
 
 int PathPlan(float t_real, float t_target, int num, float *X , float *Y, float *Yaw);
 

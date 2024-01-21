@@ -6,7 +6,6 @@
 #define INC_2024RC_B_R1_FSM_H
 
 #include "main.h"
-#include "move.h"
 
 typedef enum {
     ROBOT_STATE_INIT,           //整车初始化
