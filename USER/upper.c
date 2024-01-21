@@ -132,7 +132,7 @@ void servos_stop(void){
 }
 
 void belt_ctrl(float target_spd){
-    float belt_spd[3] = {target_spd * 0.025f,target_spd * 4.0f,target_spd * 0.025f};//上一次：{target_spd * 0.025f,target_spd * 4.0f,target_spd * 0.025f}
+    float belt_spd[3] = {target_spd * 1.0f,target_spd * 1.0f,target_spd * 0.025f};//上一次：{target_spd * 0.025f,target_spd * 4.0f,target_spd * 0.025f}
     Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_1], belt_spd[0]);//左
     Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_2], belt_spd[1]);//右
     Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_3], belt_spd[2]);//上

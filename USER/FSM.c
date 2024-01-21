@@ -59,6 +59,7 @@ void robot_fsm(void)
             break;
 
         case ROBOT_STATE_SHOOT_CTRL:
+            belt_logs();
             if (SWA == 0){
                 robot_state = ROBOT_STATE_CALIBRATION;
             }

@@ -297,13 +297,12 @@ void Shoot_Task(void *argument)
       case SHOOT_STATE_LOAD:
         /*»°«Ú*/
         // servos_control(155);
-        belt_ctrl(1000);
+        belt_ctrl(4000);
         break;
       case SHOOT_STATE_SHOOTING:
         /*∑¢…‰*/
         cylinder_control(push1, 1);
         cylinder_control(push2, 1);
-        belt_logs();
         // servos_control(100);
         break;
     }

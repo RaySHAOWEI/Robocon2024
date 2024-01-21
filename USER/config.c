@@ -16,10 +16,10 @@ void can1_config(void)
     can1motorRealInfo[3].Motor_Type = M_3508;//底盘左后轮
 
     //速度环
-    pid_param_init(&can1MOTOR_PID_RPM[0], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.1f, 0.0f);
-    pid_param_init(&can1MOTOR_PID_RPM[1], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.1f, 0.0f);
-    pid_param_init(&can1MOTOR_PID_RPM[2], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.1f, 0.0f);
-    pid_param_init(&can1MOTOR_PID_RPM[3], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.1f, 0.0f);
+    pid_param_init(&can1MOTOR_PID_RPM[0], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.0f, 0.2f);
+    pid_param_init(&can1MOTOR_PID_RPM[1], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.0f, 0.2f);
+    pid_param_init(&can1MOTOR_PID_RPM[2], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.0f, 0.2f);
+    pid_param_init(&can1MOTOR_PID_RPM[3], PID_Position, 8192, 1024, 0, 0.5f, 16384, 12.0f, 0.0f, 0.2f);
 }
 
 /**
@@ -37,9 +37,9 @@ void can2_config(void)
     //速度环
     pid_param_init(&can2MOTOR_PID_RPM[0], PID_Incremental, 8192, 900, 0, 0.1f, 16384, 15.0f, 0.4f, 0.2f);
     pid_param_init(&can2MOTOR_PID_RPM[1], PID_Incremental, 8192, 900, 0, 0.1f, 16384, 20.0f, 0.5f, 0.2f);
-    pid_param_init(&can2MOTOR_PID_RPM[2], PID_Incremental, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.4f, 0.2f);
-    pid_param_init(&can2MOTOR_PID_RPM[3], PID_Incremental, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.4f, 0.2f);
-    pid_param_init(&can2MOTOR_PID_RPM[4], PID_Incremental, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.4f, 0.2f);
+    pid_param_init(&can2MOTOR_PID_RPM[2], PID_Position, 16384, 16384, 0, 0.1f, 16384, 18.0f, 0.0f, 0.0f);
+    pid_param_init(&can2MOTOR_PID_RPM[3], PID_Position, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.0f, 0.0f);
+    pid_param_init(&can2MOTOR_PID_RPM[4], PID_Position, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.0f, 0.0f);
 
     //位置环
     pid_param_init(&can2MOTOR_PID_POS[0], PID_Position, 1024, 800, 0, 0.1f, 16384, 12.0f, 0.0f, 0.3f);
