@@ -45,6 +45,7 @@ extern "C" {
 #include "rm_motor.h"
 #include "upper.h"
 #include "usr_can.h"
+#include "usr_uart.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

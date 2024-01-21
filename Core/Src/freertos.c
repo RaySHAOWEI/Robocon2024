@@ -303,6 +303,7 @@ void Shoot_Task(void *argument)
         /*·¢Éä*/
         cylinder_control(push1, 1);
         cylinder_control(push2, 1);
+        belt_logs();
         // servos_control(100);
         break;
     }

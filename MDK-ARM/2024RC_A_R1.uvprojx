@@ -801,6 +801,16 @@
               <FileType>5</FileType>
               <FilePath>..\USER\usr_can.h</FilePath>
             </File>
+            <File>
+              <FileName>usr_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\usr_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>usr_uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USER\usr_uart.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

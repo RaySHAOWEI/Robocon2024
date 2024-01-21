@@ -46,3 +46,5 @@
 2024rc_a_r1\fsm.o: ../USER/rm_motor.h
 2024rc_a_r1\fsm.o: ../USER/upper.h
 2024rc_a_r1\fsm.o: ../USER/usr_can.h
+2024rc_a_r1\fsm.o: ../USER/usr_uart.h
+2024rc_a_r1\fsm.o: ../Core/Inc/usart.h

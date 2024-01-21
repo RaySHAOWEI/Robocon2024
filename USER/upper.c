@@ -140,7 +140,5 @@ void belt_ctrl(float target_spd){
 }
 
 void belt_logs(void){
-    motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_1],"вС");
-    motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_2],"ср");
-    motor_info_output(&can2motorRealInfo[Motor_BELT_MOTOR_3],"ио");
+    sent_data(can2motorRealInfo[Motor_BELT_MOTOR_1].RPM,can2motorRealInfo[Motor_BELT_MOTOR_2].RPM,can2motorRealInfo[Motor_BELT_MOTOR_1].CURRENT,can2motorRealInfo[Motor_BELT_MOTOR_2].CURRENT);
 }

@@ -175,12 +175,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-int fputc(int ch, FILE *f)
-{
- uint8_t temp[1] = {ch};
- HAL_UART_Transmit(&huart1, temp, 1, 2);
- return ch;
-}
+
 /* USER CODE END 4 */
 
 /**
@@ -194,10 +189,6 @@ int fputc(int ch, FILE *f)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-  // if (htim->Instance == TIM1)
-  // {
-  //     // belt_logs();
-  // }
   if (htim->Instance == TIM2)
   {
       LAST_TIME_ISR_CNT = TIME_ISR_CNT;

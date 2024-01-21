@@ -1,8 +1,8 @@
 Dependencies for Project '2024RC_A_R1', Target '2024RC_A_R1': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f407xx.s)(0x65AC41C6)(--cpu Cortex-M4.fp.sp -g --apcs=interwork -I ../Core/Inc-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 538" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f407xx.lst --xref -o 2024rc_a_r1\startup_stm32f407xx.o --depend 2024rc_a_r1\startup_stm32f407xx.d)
-F (../Core/Src/main.c)(0x65AC42CE)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\main.o --omf_browse 2024rc_a_r1\main.crf --depend 2024rc_a_r1\main.d)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+F (../Core/Src/main.c)(0x65AC6EB7)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\main.o --omf_browse 2024rc_a_r1\main.crf --depend 2024rc_a_r1\main.d)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -43,9 +43,11 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h)(0x651DABB7)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x651DABB7)
 I (../Core/Inc/FreeRTOSConfig.h)(0x65A6A7ED)
@@ -59,11 +61,10 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x651DABB7)
 I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h)(0x651DABB7)
 I (../Core/Inc/can.h)(0x65A6A7EE)
 I (../Core/Inc/tim.h)(0x65AC408B)
-I (../Core/Inc/usart.h)(0x65AB89F2)
 I (../Core/Inc/gpio.h)(0x65A6A7EC)
 F (../Core/Src/gpio.c)(0x65AC1A18)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\gpio.o --omf_browse 2024rc_a_r1\gpio.crf --depend 2024rc_a_r1\gpio.d)
 I (../Core/Inc/gpio.h)(0x65A6A7EC)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -104,10 +105,12 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
-F (../Core/Src/freertos.c)(0x65AC425C)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\freertos.o --omf_browse 2024rc_a_r1\freertos.crf --depend 2024rc_a_r1\freertos.d)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
+F (../Core/Src/freertos.c)(0x65AC7012)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\freertos.o --omf_browse 2024rc_a_r1\freertos.crf --depend 2024rc_a_r1\freertos.d)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x651DABB7)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x6025237E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025237E)
@@ -119,7 +122,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x651DABB7)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x651DABB7)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x651DABB7)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -158,15 +161,17 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h)(0x651DABB7)
 I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h)(0x651DABB7)
 I (../USER/move.h)(0x65A7941C)
 F (../Core/Src/can.c)(0x65A6A7EE)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\can.o --omf_browse 2024rc_a_r1\can.crf --depend 2024rc_a_r1\can.d)
 I (../Core/Inc/can.h)(0x65A6A7EE)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -207,12 +212,14 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (../Core/Src/tim.c)(0x65AC408B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\tim.o --omf_browse 2024rc_a_r1\tim.crf --depend 2024rc_a_r1\tim.d)
 I (../Core/Inc/tim.h)(0x65AC408B)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -253,12 +260,14 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (../Core/Src/usart.c)(0x65ABCE74)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\usart.o --omf_browse 2024rc_a_r1\usart.crf --depend 2024rc_a_r1\usart.d)
 I (../Core/Inc/usart.h)(0x65AB89F2)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -299,11 +308,12 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
 F (../Core/Src/stm32f4xx_it.c)(0x65ABACF9)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\stm32f4xx_it.o --omf_browse 2024rc_a_r1\stm32f4xx_it.crf --depend 2024rc_a_r1\stm32f4xx_it.d)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -344,12 +354,14 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 I (../Core/Inc/stm32f4xx_it.h)(0x65ABACF9)
 F (../Core/Src/stm32f4xx_hal_msp.c)(0x65A6A7EE)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\stm32f4xx_hal_msp.o --omf_browse 2024rc_a_r1\stm32f4xx_hal_msp.crf --depend 2024rc_a_r1\stm32f4xx_hal_msp.d)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -390,9 +402,11 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (../Core/Src/stm32f4xx_hal_timebase_tim.c)(0x65A6A7EE)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\stm32f4xx_hal_timebase_tim.o --omf_browse 2024rc_a_r1\stm32f4xx_hal_timebase_tim.crf --depend 2024rc_a_r1\stm32f4xx_hal_timebase_tim.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
@@ -1177,7 +1191,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x651DABB7)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x651DABB7)
 F (..\USER\action.c)(0x65A78332)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\action.o --omf_browse 2024rc_a_r1\action.crf --depend 2024rc_a_r1\action.d)
 I (..\USER\action.h)(0x65A781D8)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1218,13 +1232,15 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\action.h)(0x65A781D8)()
 F (..\USER\air_joy.c)(0x6561B821)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\air_joy.o --omf_browse 2024rc_a_r1\air_joy.crf --depend 2024rc_a_r1\air_joy.d)
 I (..\USER\air_joy.h)(0x6561B6CE)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1265,13 +1281,15 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\air_joy.h)(0x6561B6CE)()
 F (..\USER\chassis.c)(0x65AC3900)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\chassis.o --omf_browse 2024rc_a_r1\chassis.crf --depend 2024rc_a_r1\chassis.d)
 I (..\USER\chassis.h)(0x65AC33B6)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1312,13 +1330,15 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\chassis.h)(0x65AC33B6)()
 F (..\USER\config.c)(0x65A6E86B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\config.o --omf_browse 2024rc_a_r1\config.crf --depend 2024rc_a_r1\config.d)
 I (..\USER\config.h)(0x6564948E)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1359,13 +1379,15 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\config.h)(0x6564948E)()
 F (..\USER\FSM.c)(0x65AC0E51)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\fsm.o --omf_browse 2024rc_a_r1\fsm.crf --depend 2024rc_a_r1\fsm.d)
 I (..\USER\FSM.h)(0x65AC0548)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1406,13 +1428,15 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\FSM.h)(0x65AC0548)()
 F (..\USER\move.c)(0x65A783F0)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\move.o --omf_browse 2024rc_a_r1\move.crf --depend 2024rc_a_r1\move.d)
 I (..\USER\move.h)(0x65A7941C)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1453,16 +1477,18 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\move.h)(0x65A7941C)()
 F (..\USER\pid.c)(0x65AAD8F6)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\pid.o --omf_browse 2024rc_a_r1\pid.crf --depend 2024rc_a_r1\pid.d)
 I (..\USER\pid.h)(0x655FCE02)
 F (..\USER\pid.h)(0x655FCE02)()
-F (..\USER\rm_motor.c)(0x65AC4833)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\rm_motor.o --omf_browse 2024rc_a_r1\rm_motor.crf --depend 2024rc_a_r1\rm_motor.d)
-I (..\USER\rm_motor.h)(0x65ABCE56)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+F (..\USER\rm_motor.c)(0x65AC6E9B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\rm_motor.o --omf_browse 2024rc_a_r1\rm_motor.crf --depend 2024rc_a_r1\rm_motor.d)
+I (..\USER\rm_motor.h)(0x65AC6EA4)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1503,13 +1529,15 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
-F (..\USER\rm_motor.h)(0x65ABCE56)()
-F (..\USER\upper.c)(0x65AC195E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\upper.o --omf_browse 2024rc_a_r1\upper.crf --depend 2024rc_a_r1\upper.d)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
+F (..\USER\rm_motor.h)(0x65AC6EA4)()
+F (..\USER\upper.c)(0x65AC6FD7)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\upper.o --omf_browse 2024rc_a_r1\upper.crf --depend 2024rc_a_r1\upper.d)
 I (..\USER\upper.h)(0x65AC190E)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1550,13 +1578,15 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\upper.h)(0x65AC190E)()
 F (..\USER\usr_can.c)(0x65624B72)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\usr_can.o --omf_browse 2024rc_a_r1\usr_can.crf --depend 2024rc_a_r1\usr_can.d)
 I (..\USER\usr_can.h)(0x655FB7FD)
-I (../Core/Inc/main.h)(0x65AC1A1B)
+I (../Core/Inc/main.h)(0x65AC7032)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
@@ -1597,7 +1627,58 @@ I (../USER/chassis.h)(0x65AC33B6)
 I (../USER/config.h)(0x6564948E)
 I (../USER/FSM.h)(0x65AC0548)
 I (../USER/pid.h)(0x655FCE02)
-I (../USER/rm_motor.h)(0x65ABCE56)
+I (../USER/rm_motor.h)(0x65AC6EA4)
 I (../USER/upper.h)(0x65AC190E)
 I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
 F (..\USER\usr_can.h)(0x655FB7FD)()
+F (..\USER\usr_uart.c)(0x65AC6FA3)(--c99 -c --cpu Cortex-M4.fp.sp -g -O2 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER-I.\RTE\_2024RC_A_R1-IC:\Users\Ray\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\Ray\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o 2024rc_a_r1\usr_uart.o --omf_browse 2024rc_a_r1\usr_uart.crf --depend 2024rc_a_r1\usr_uart.d)
+I (..\USER\usr_uart.h)(0x65AC6DD8)
+I (../Core/Inc/usart.h)(0x65AB89F2)
+I (../Core/Inc/main.h)(0x65AC7032)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x651DABDB)
+I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65A6A9F5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h)(0x651DABDB)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x651DABB2)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x651DABB2)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x651DABB5)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x651DABB5)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x651DABB4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x651DABB4)
+I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x651DABB5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x651DABB2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x651DABDB)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x651DABDB)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x651DABDB)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
+I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x60252378)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
+I (../USER/action.h)(0x65A781D8)
+I (../USER/air_joy.h)(0x6561B6CE)
+I (../USER/chassis.h)(0x65AC33B6)
+I (../USER/config.h)(0x6564948E)
+I (../USER/FSM.h)(0x65AC0548)
+I (../USER/pid.h)(0x655FCE02)
+I (../USER/rm_motor.h)(0x65AC6EA4)
+I (../USER/upper.h)(0x65AC190E)
+I (../USER/usr_can.h)(0x655FB7FD)
+I (../USER/usr_uart.h)(0x65AC6DD8)
+F (..\USER\usr_uart.h)(0x65AC6DD8)()

@@ -46,3 +46,5 @@
 2024rc_a_r1\config.o: ../USER/rm_motor.h
 2024rc_a_r1\config.o: ../USER/upper.h
 2024rc_a_r1\config.o: ../USER/usr_can.h
+2024rc_a_r1\config.o: ../USER/usr_uart.h
+2024rc_a_r1\config.o: ../Core/Inc/usart.h

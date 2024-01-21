@@ -45,6 +45,8 @@
 2024rc_a_r1\main.o: ../USER/rm_motor.h
 2024rc_a_r1\main.o: ../USER/upper.h
 2024rc_a_r1\main.o: ../USER/usr_can.h
+2024rc_a_r1\main.o: ../USER/usr_uart.h
+2024rc_a_r1\main.o: ../Core/Inc/usart.h
 2024rc_a_r1\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 2024rc_a_r1\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 2024rc_a_r1\main.o: ../Core/Inc/FreeRTOSConfig.h
@@ -58,5 +60,4 @@
 2024rc_a_r1\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 2024rc_a_r1\main.o: ../Core/Inc/can.h
 2024rc_a_r1\main.o: ../Core/Inc/tim.h
-2024rc_a_r1\main.o: ../Core/Inc/usart.h
 2024rc_a_r1\main.o: ../Core/Inc/gpio.h

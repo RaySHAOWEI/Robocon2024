@@ -47,6 +47,7 @@
 "2024rc_a_r1\rm_motor.o"
 "2024rc_a_r1\upper.o"
 "2024rc_a_r1\usr_can.o"
+"2024rc_a_r1\usr_uart.o"
 --strict --scatter "2024RC_A_R1\2024RC_A_R1.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

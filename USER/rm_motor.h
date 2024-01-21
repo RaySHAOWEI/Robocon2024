@@ -119,7 +119,6 @@ void Pos_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque,
 void Speed_Control(MOTOR_REAL_INFO* RM_MOTOR, float Target_RPM);
 void Vel_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque, float Target_Vel);
 void Velocity_Planning_setpos(MOTOR_REAL_INFO *M3508_MOTOR,float Pstart,float Pend,float Vstart,float Vmax,float Vend,float Rac,float Rde);
-void motor_info_output(MOTOR_REAL_INFO *motor, char *name);
 // M3508返回的电机真实信息
 
 extern MOTOR_REAL_INFO can1motorRealInfo[7];//can1

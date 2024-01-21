@@ -54,6 +54,8 @@
 2024rc_a_r1\freertos.o: ../USER/rm_motor.h
 2024rc_a_r1\freertos.o: ../USER/upper.h
 2024rc_a_r1\freertos.o: ../USER/usr_can.h
+2024rc_a_r1\freertos.o: ../USER/usr_uart.h
+2024rc_a_r1\freertos.o: ../Core/Inc/usart.h
 2024rc_a_r1\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 2024rc_a_r1\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 2024rc_a_r1\freertos.o: ../USER/move.h

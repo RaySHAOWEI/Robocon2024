@@ -750,7 +750,3 @@ void Velocity_Planning_setpos(MOTOR_REAL_INFO *M3508_MOTOR,float Pstart,float Pe
     M3508_MOTOR->Velocity_Planning.Rde = Rde;
     M3508_MOTOR->Velocity_Planning.flag = 0;
 }
-
-void motor_info_output(MOTOR_REAL_INFO *motor, char *name){
-    printf("%s: angle=%f, rpm=%d, current=%d, target_current=%d\n",name,motor->REAL_ANGLE,motor->RPM,motor->CURRENT,motor->TARGET_CURRENT);
-}
