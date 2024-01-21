@@ -38,9 +38,9 @@ void can2_config(void)
     pid_param_init(&can2MOTOR_PID_RPM[0], PID_Position, 8192, 900, 0, 0.1f, 16384, 20.0f, 0.0f, 0.0f);
     pid_param_init(&can2MOTOR_PID_RPM[1], PID_Incremental, 8192, 900, 0, 0.1f, 16384, 20.0f, 0.5f, 0.2f);
 	
-    pid_param_init(&can2MOTOR_PID_RPM[2], PID_Position, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.0f, 0.0f);
-    pid_param_init(&can2MOTOR_PID_RPM[3], PID_Position, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.0f, 0.0f);
-    pid_param_init(&can2MOTOR_PID_RPM[4], PID_Position, 16384, 16384, 0, 0.1f, 16384, 13.0f, 0.0f, 0.0f);
+    pid_param_init(&can2MOTOR_PID_RPM[2], PID_Position, 16384, 16384, 0, 0.1f, 16384, 14.0f, 0.05f, 0.0f);
+    pid_param_init(&can2MOTOR_PID_RPM[3], PID_Position, 16384, 16384, 0, 0.1f, 16384, 14.0f, 0.05f, 0.0f);
+    pid_param_init(&can2MOTOR_PID_RPM[4], PID_Position, 16384, 16384, 0, 0.1f, 16384, 14.0f, 0.05f, 0.0f);
 
     //Œª÷√ª∑
     pid_param_init(&can2MOTOR_PID_POS[0], PID_Position, 1024, 800, 0, 0.1f, 16384, 18.0f, 0.0f, 0.01f);
