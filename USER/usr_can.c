@@ -37,21 +37,21 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     uint8_t	RxData[8];  //数据接收数组，can的数据帧只有8帧
     uint8_t	RxData2[8];
 
-    if(hcan == &hcan1)//底盘4个3508电机m = 0 1 2 3; 云台2个6020电机m = 4 5（6020驱动器id应当设置为1 2）
+    if(hcan == &hcan1)
     {
         HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, RxData);
         get_motor_measure(&RxHeader, RxData, &hcan1);  // 大疆电机数据处理
-        for(int m=0;m<6;m++)
+        for(int m=0;m<7;m++)
         {
             RM_MOTOR_Angle_Integral(&can1motorRealInfo[m]);//角度积分
         }
 
     }
-    if(hcan == &hcan2)//履带2个3508电机m = 0 1; 夹爪翻转1个3508电机m = 2; 凸轮2个3508电机m = 3 4; 炮塔云台1个3508电机m = 5
+    if(hcan == &hcan2)
     {
         HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0, &RxHeader, RxData2);
         get_motor_measure(&RxHeader, RxData2, &hcan2);  // 大疆电机数据处理
-        for(int m=0;m<6;m++)
+        for(int m=0;m<7;m++)
         {
             RM_MOTOR_Angle_Integral(&can2motorRealInfo[m]);//角度积分
         }

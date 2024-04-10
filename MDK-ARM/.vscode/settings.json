@@ -11,6 +11,14 @@
         "air_joy.h": "c",
         "cmsis_os.h": "c",
         "stdio.h": "c",
-        "cstdio": "c"
+        "cstdio": "c",
+        "usart.h": "c",
+        "usr_uart.h": "c",
+        "memory_resource": "c",
+        "fstream": "c",
+        "memory": "c",
+        "sstream": "c",
+        "chassis.h": "c",
+        "dt35.h": "c"
     }
 }

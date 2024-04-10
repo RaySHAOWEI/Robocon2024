@@ -11,15 +11,7 @@ extern UART_HandleTypeDef huart4;
 
 //安装偏移误差
 #define INSTALL_ERROR_X		0.0
-#define INSTALL_ERROR_Y		0.0
-
-// 机器人的真实位置
-typedef struct ROBOT_REAL_POS
-{
-  float world_x;
-  float world_y;     
-  float world_w;
-}ROBOT_REAL_POS;
+#define INSTALL_ERROR_Y		88.0
 
 typedef struct ACTION_GL_POS
 {
@@ -40,9 +32,8 @@ typedef struct ACTION_GL_POS
 	float REAL_Y;
 }ACTION_GL_POS;
 
-extern ROBOT_REAL_POS ROBOT_REAL_POS_DATA;
+extern ACTION_GL_POS ACTION_GL_POS_DATA;
 
-void action_data_analyse(void);
-void Update_Action_gl_position(float value[6]);
+void Update_Action_gl_position(float *value);
 
 #endif //INC_2024RC_B_R1_ACTION_H

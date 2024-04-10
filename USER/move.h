@@ -7,65 +7,45 @@
 
 #include "main.h"
 
-extern float X[9];
-extern float Y[9];
-extern float Yaw[9];
-
-extern float X1[9];
-extern float Y1[9];
-extern float Yaw1[9];
-
 typedef struct
 {
-    float X;
-    float Y;
-    float Yaw;
-    float V_x;
-    float V_y;
-    float W;
-}PATH_TYPEDEF;
-
-typedef enum//瞎写的之后讨论一下怎么个事。。。
-{
-    //停止
-    MOVE_STOP,
-
-    //取苗点
-    MOVE_2_GET_SEED_POINT,
+	float Distance;
+	float Pstart;        //开始位置
+	float Pend;          //结束位置
+	float Vstart;        //开始的速度           
+	float Vmax;          //最大的速度
+	float Vend;          //末尾的速度
+	float Rac;           //加速路程的比例
+	float Rde;           //减速路程的比例
+	int flag;            //完成标志位，停下来的时候置1
+}TrapezoidPlaning_TYPEDEF;
 
 
-    // 种苗点
-    MOVE_2_SEED_POINT,
+extern PID_T point_traker_x_pid;
+extern PID_T point_traker_y_pid;
+extern PID_T point_traker_yaw_pid;
+extern PID_T TRACK_PID;
+extern PID_T track_pid;
 
+void AngleLimit(float *angle);
+int YawAdjust(float Taget_angle);
 
-    // // 取球点
-    // MOVE_2_GET_BALL_POINT_1,
-    // MOVE_2_GET_BALL_POINT_2,
-    // MOVE_2_GET_BALL_POINT_3,
+uint32_t getSysTickCnt(void);
+void movebase(void);
+void move_seed(void);
+void put_seed(void);
+void auto_detection(void);
 
+int chassis_TrapezoidPlaning(float POS_X_start,
+	                        float POS_Y_start,
+								        float POS_X_end,
+										float POS_Y_end,
+										float POS_Yaw,
+										float V_start,
+										float V_end,
+										float V_max,
+										float R_ac,
+										float R_de);
 
-    // //射球点
-    // MOVE_2_SHOOT_POINT_1,
-
-    // 启动区
-    MOVE_2_RESTART
-
-}MOVE_STATE_ITEMS;
-
-extern MOVE_STATE_ITEMS MOVE_STATE;
-
-// extern PID_T yaw_pid;
-// extern PID_T point_X_pid;
-// extern PID_T point_Y_pid;
-
-void MoveInit(void);
-
-void YawAdjust(float Target_angle);
-
-void LockupPoint(float POS_X, float POS_Y, float POS_YAW);
-
-// void PDController(PATH_TYPEDEF target_point, ROBOT_REAL_POS robot_now_pos);
-
-int PathPlan(float t_real, float t_target, int num, float *X , float *Y, float *Yaw);
 
 #endif //INC_2024RC_B_R1_MOVE_H

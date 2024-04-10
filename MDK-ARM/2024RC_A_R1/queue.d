@@ -1,9 +1,9 @@
 2024rc_a_r1\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/queue.c
-2024rc_a_r1\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-2024rc_a_r1\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+2024rc_a_r1\queue.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+2024rc_a_r1\queue.o: E:\Keil\ARM\ARMCC\Bin\..\include\string.h
 2024rc_a_r1\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-2024rc_a_r1\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-2024rc_a_r1\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+2024rc_a_r1\queue.o: E:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+2024rc_a_r1\queue.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 2024rc_a_r1\queue.o: ../Core/Inc/FreeRTOSConfig.h
 2024rc_a_r1\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 2024rc_a_r1\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h

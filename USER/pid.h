@@ -5,6 +5,8 @@
 #ifndef INC_2024RC_B_R1_PID_H
 #define INC_2024RC_B_R1_PID_H
 
+#include "stm32f4xx.h"
+
 #define ABS(x)  ((x)>0? (x):(-(x)))
 
 /**
@@ -34,6 +36,7 @@ typedef struct _PID_T
     float kp;                       //比例系数
     float ki;                       //积分系数
     float kd;                       //微分系数
+    float kf;                       //前馈系数
 
     float target[3];			    //目标值
     float measure[3];				//测量值
@@ -42,6 +45,7 @@ typedef struct _PID_T
     float pout;                     //比例项
     float iout;                     //积分项
     float dout;                     //微分项
+    float fout;                     //前馈项
 
     float output;					//本次输出
     float last_output;			    //上次输出
@@ -52,6 +56,8 @@ typedef struct _PID_T
     float IntegralSeparate;         //积分分离阈值，用于避免积分饱和现象
     float DeadBand;			        //死区（绝对值）
     float Max_Err;					//最大误差
+
+    uint8_t first_flag;             //第一次标志位
 }PID_T;
 
 void pid_param_init(
@@ -69,5 +75,7 @@ void pid_param_init(
 void pid_reset(PID_T* pid, float kp, float ki, float kd);
 
 float pid_calc(PID_T *pid, float target, float measure);
+
+float pid_calc_by_error(PID_T *pid, float error);
 
 #endif //INC_2024RC_B_R1_PID_H

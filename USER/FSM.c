@@ -6,7 +6,7 @@
 
 ROBOT_STATE_ITEMS robot_state = ROBOT_STATE_INIT;
 CHASSIS_STATE_ITEMS chassis_state = CHASSIS_DISABLE;
-SEED_STATE_ITEMS seed_state = SEED_STATE_DISABLE;
+SEED_STATE_ITEMS last_seed_state,seed_state = SEED_STATE_DISABLE;
 SHOOT_STATE_ITEMS shoot_state = SHOOT_STATE_INIT;
 
 AREA SEED_AREA = {-0.1f, -0.1f, 50.0f, 50.0f};//瞎写的，期末没用
@@ -23,7 +23,6 @@ void robot_fsm(void)
 
         case ROBOT_STATE_CALIBRATION:
             chassis_state = CHASSIS_DISABLE;
-            seed_state = SEED_STATE_INIT;
             if (SWA != 0 && SWB != 0 && SWC != 0 && SWD != 0){//确认航模初始化成功
                 SWA_judge();
                 SWB_judge();
@@ -85,24 +84,24 @@ void SWA_judge(void)
     }
 }
 
-void auto_switch(void)
-{
-    if(ROBOT_CHASSI.world_x < SEED_AREA.x_max && ROBOT_CHASSI.world_x >= SEED_AREA.x_min && ROBOT_CHASSI.world_y < SEED_AREA.y_max && ROBOT_CHASSI.world_y >= SEED_AREA.y_min)
-    {
-        robot_state = ROBOT_STATE_SEED_CTRL;
-    }
-    else if(ROBOT_CHASSI.world_x < SHOOT_AREA.x_max && ROBOT_CHASSI.world_x >= SHOOT_AREA.x_min && ROBOT_CHASSI.world_y < SHOOT_AREA.y_max && ROBOT_CHASSI.world_y >= SHOOT_AREA.y_min)
-    {
-        robot_state = ROBOT_STATE_SHOOT_CTRL;
-    }
-}
+// void auto_switch(void)
+// {
+//     if(ROBOT_CHASSI.world_x < SEED_AREA.x_max && ROBOT_CHASSI.world_x >= SEED_AREA.x_min && ROBOT_CHASSI.world_y < SEED_AREA.y_max && ROBOT_CHASSI.world_y >= SEED_AREA.y_min)
+//     {
+//         robot_state = ROBOT_STATE_SEED_CTRL;
+//     }
+//     else if(ROBOT_CHASSI.world_x < SHOOT_AREA.x_max && ROBOT_CHASSI.world_x >= SHOOT_AREA.x_min && ROBOT_CHASSI.world_y < SHOOT_AREA.y_max && ROBOT_CHASSI.world_y >= SHOOT_AREA.y_min)
+//     {
+//         robot_state = ROBOT_STATE_SHOOT_CTRL;
+//     }
+// }
 
 void SWB_judge(void)
 {
     if (SWB < 1200)
     {
         // auto_switch();//根据action全场定位判断当前是哪个模式
-        robot_state = ROBOT_STATE_AUTO_CTRL;
+        // robot_state = ROBOT_STATE_AUTO_CTRL;
     }
     else if (1300 < SWB && SWB < 1700)
     {
@@ -124,6 +123,7 @@ void SWC_judge(void)
         }
         else if (robot_state == ROBOT_STATE_SHOOT_CTRL)
         {
+            seed_state = SEED_STATE_DISABLE;
             shoot_state = SHOOT_STATE_INIT;
         }
     }
@@ -131,7 +131,7 @@ void SWC_judge(void)
     {
         if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
-            seed_state = SEED_STATE_PEEK;
+            seed_state = SEED_STATE_PEEK_DOWN;
         }
         else if (robot_state == ROBOT_STATE_SHOOT_CTRL)
         {
@@ -142,7 +142,7 @@ void SWC_judge(void)
     {
         if (robot_state == ROBOT_STATE_SEED_CTRL)
         {
-            seed_state = SEED_STATE_PUT;
+            seed_state = SEED_STATE_PREPUT;
         }
         else if (robot_state == ROBOT_STATE_SHOOT_CTRL)
         {
@@ -156,11 +156,12 @@ void SWD_judge(void)
     if (SWD < 1500)
     {
         //路径规划关
-        ROBOT_CHASSI.Path_planning = 0;
+        ROBOT_CHASSI.World_Move_Flag = 1;
     }
     else if (SWD > 1500)
     {
         //路径规划开
-        ROBOT_CHASSI.Path_planning = 1;
+        // ROBOT_CHASSI.Path_planning = 1;
+        ROBOT_CHASSI.World_Move_Flag = 0;
     }
 }

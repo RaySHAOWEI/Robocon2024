@@ -48,3 +48,25 @@ void can2_config(void)
 }
 
 
+void Move_Init(void)
+{
+	// //PD跟踪器
+    pid_param_init(&point_traker_x_pid, PID_Position, 2000, 0, 0, 10, 0, 3, 0, 0.5);
+    pid_param_init(&point_traker_y_pid, PID_Position, 2000, 0, 0, 10, 0, 3, 0, 0.5);
+    pid_param_init(&point_traker_yaw_pid, PID_Position, 1000, 0, 0, 1, 0, 30, 0, 0.1);
+    pid_param_init(&TRACK_PID, PID_Position, 1000, 0, 0, 1, 0, 30, 0, 0.1);
+    pid_param_init(&track_pid, PID_Position, 1000, 0, 0, 1, 0, 30, 0, 0.1);
+	
+	// 激光PID
+	pid_param_init(&laser_X_pid, PID_Position, 500, 0, 0, 10, 0, 1, 0, 0.5);
+	pid_param_init(&laser_Y_pid, PID_Position, 100, 0, 0, 10, 0, 1, 0, 0.5);
+	pid_param_init(&laser_K_pid, PID_Position, 300, 0, 0, 10, 0, 3, 0, 0.5);
+	pid_param_init(&laser_B_pid, PID_Position, 300, 0, 0, 10, 0, 2, 0, 0.5);
+	
+//	// 自动路径PID
+//	PID_parameter_init(&point_pid ,  1.2f,0, 0.5f, 500, 0, 5);
+//	PID_parameter_init(&yaw_pid ,  50.0f,0.1f, 1.0f, 1000.0f, 0.0f, 0.1f);
+//	PID_parameter_init(&catch_ring_pid ,  3.0f,0.0f, 0.3f, 100.0f, 0.0f, 1.0f);
+//	PID_parameter_init(&catch_ring_pid_b ,  3.1f,0.0f, 0.3f, 100.0f, 0.0f, 1.0f);
+}
+

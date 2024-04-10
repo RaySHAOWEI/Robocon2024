@@ -38,14 +38,16 @@ extern "C" {
 #include "action.h"
 #include "air_joy.h"
 #include "chassis.h"
+#include "Command.h"
 #include "config.h"
 #include "FSM.h"
-// #include "move.h"
 #include "pid.h"
 #include "rm_motor.h"
 #include "upper.h"
 #include "usr_can.h"
 #include "usr_uart.h"
+#include "DT35.h"
+#include "move.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

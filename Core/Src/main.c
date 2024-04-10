@@ -20,6 +20,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "can.h"
+#include "dma.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -90,6 +91,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_TIM2_Init();
@@ -97,11 +99,25 @@ int main(void)
   MX_TIM14_Init();
   MX_UART4_Init();
   MX_USART1_UART_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);//初始化定时器2
 
-  uint8_t USART_Receiver1;
-  HAL_UART_Receive_IT(&huart4,&USART_Receiver1,1);//初始化action
+  // uint8_t USART_Receiver1;
+  // HAL_UART_Receive_IT(&huart4,&USART_Receiver1,1);//初始化action
+
+  Usart1_Init();
+  Uart4_Init();
+	Uart5_Init();
+	
+	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, Usart1.ProcessBuff, Max_BUFF_Len);
+	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // 关闭DMA半传输中断
+
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart4, Usart4.ProcessBuff, Max_BUFF_Len);
+  __HAL_DMA_DISABLE_IT(&hdma_uart4_rx, DMA_IT_HT); // 关闭DMA半传输中断
+
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart5, Usart5.ProcessBuff, Max_BUFF_Len);
+	__HAL_DMA_DISABLE_IT(&hdma_uart5_rx, DMA_IT_HT); // 关闭DMA半传输中断
 
   can_filter_init();
   can1_config();
@@ -110,7 +126,9 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  osKernelInitialize();
+
+  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */

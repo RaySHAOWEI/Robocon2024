@@ -11,4 +11,6 @@ void can1_config(void);
 
 void can2_config(void);
 
+void Move_Init(void);
+
 #endif //INC_2024RC_B_R1_CONFIG_H

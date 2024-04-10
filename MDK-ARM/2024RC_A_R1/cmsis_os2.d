@@ -1,8 +1,8 @@
 2024rc_a_r1\cmsis_os2.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
-2024rc_a_r1\cmsis_os2.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+2024rc_a_r1\cmsis_os2.o: E:\Keil\ARM\ARMCC\Bin\..\include\string.h
 2024rc_a_r1\cmsis_os2.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
-2024rc_a_r1\cmsis_os2.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-2024rc_a_r1\cmsis_os2.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+2024rc_a_r1\cmsis_os2.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+2024rc_a_r1\cmsis_os2.o: E:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
 2024rc_a_r1\cmsis_os2.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 2024rc_a_r1\cmsis_os2.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 2024rc_a_r1\cmsis_os2.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h

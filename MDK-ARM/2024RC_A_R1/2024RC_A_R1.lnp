@@ -1,9 +1,10 @@
---cpu=Cortex-M4.fp.sp
+--cpu=Cortex-M4.fp
 "2024rc_a_r1\startup_stm32f407xx.o"
 "2024rc_a_r1\main.o"
 "2024rc_a_r1\gpio.o"
 "2024rc_a_r1\freertos.o"
 "2024rc_a_r1\can.o"
+"2024rc_a_r1\dma.o"
 "2024rc_a_r1\tim.o"
 "2024rc_a_r1\usart.o"
 "2024rc_a_r1\stm32f4xx_it.o"
@@ -48,6 +49,8 @@
 "2024rc_a_r1\upper.o"
 "2024rc_a_r1\usr_can.o"
 "2024rc_a_r1\usr_uart.o"
+"2024rc_a_r1\command.o"
+"2024rc_a_r1\dt35.o"
 --strict --scatter "2024RC_A_R1\2024RC_A_R1.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

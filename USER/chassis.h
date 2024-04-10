@@ -32,6 +32,10 @@ typedef struct ROBOT_CHASSIS_T
     float world_y;
     float world_w;
 
+	float remote_x;//接收遥控器传回的速度期望值
+	float remote_y;
+	float remote_w;
+
 	float plan_x;//接收路径规划传回的速度期望值
     float plan_y;
     float plan_w;
@@ -42,8 +46,7 @@ typedef struct ROBOT_CHASSIS_T
 
 	float Motor_Target_RPM[4];           //4个轮子的目标转速
 
-	int8_t Path_planning;      			//路径规划标志位
-	int8_t World_Move_Flag;			 	//世界坐标系启用标志位（暂时未用）
+	int8_t World_Move_Flag;			 	//世界坐标系启用标志位
 }ROBOT_CHASSIS;
 
 extern ROBOT_CHASSIS ROBOT_CHASSI;

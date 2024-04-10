@@ -841,20 +841,19 @@ ARM Macro Assembler    Page 13
               00000400 
               00000200 
               00000000 
-Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
-interwork --depend=2024rc_a_r1\startup_stm32f407xx.d -o2024rc_a_r1\startup_stm3
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=2024rc_a_r1\startup_stm32f407xx.d -o2024rc_a_r1\startup_stm32f4
 
 
 
 ARM Macro Assembler    Page 14 
 
 
-2f407xx.o -I../Core/Inc -I.\RTE\_2024RC_A_R1 -IC:\Users\Ray\AppData\Local\Arm\P
-acks\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\Users\Ray\AppData\Local\Arm\Packs\
-Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include --predefine
-="__UVISION_VERSION SETA 538" --predefine="_RTE_ SETA 1" --predefine="STM32F407
-xx SETA 1" --predefine="_RTE_ SETA 1" --list=startup_stm32f407xx.lst startup_st
-m32f407xx.s
+07xx.o -I../Core/Inc -I.\RTE\_2024RC_A_R1 -IE:\Keil\ARM\PACK\ARM\CMSIS\5.4.0\CM
+SIS\Core\Include -IE:\Keil\ARM\PACK\Keil\STM32F4xx_DFP\2.8.0\Drivers\CMSIS\Devi
+ce\ST\STM32F4xx\Include --predefine="__UVISION_VERSION SETA 526" --predefine="_
+RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --list=startup_stm32f407xx.lst st
+artup_stm32f407xx.s
 
 
 

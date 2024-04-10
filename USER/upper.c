@@ -15,130 +15,175 @@ void lim(float *input, float max, float min) {
     }
 }
 
-void cylinder_control(Cylinder cylinder, uint8_t state){
-    switch (cylinder)
-    {
-        case finger1_3:
-            if(state == 0){
-                HAL_GPIO_WritePin(finger1_GPIO_Port, finger1_Pin, GPIO_PIN_RESET);
-            }
-            else if(state == 1){
-                HAL_GPIO_WritePin(finger1_GPIO_Port, finger1_Pin, GPIO_PIN_SET);
-            }
-            break;
-        case finger2_4:
-            if(state == 0){
-                HAL_GPIO_WritePin(finger2_GPIO_Port, finger2_Pin, GPIO_PIN_RESET);
-            }
-            else if(state == 1){
-                HAL_GPIO_WritePin(finger2_GPIO_Port, finger2_Pin, GPIO_PIN_SET);
-            }
-            break;
-        case push1:
-            if(state == 0){
-                HAL_GPIO_WritePin(load1_GPIO_Port, load1_Pin, GPIO_PIN_RESET);
-            }
-            else if(state == 1){
-                HAL_GPIO_WritePin(load1_GPIO_Port, load1_Pin, GPIO_PIN_SET);
-            }
-            break;
-        case push2:
-            if(state == 0){
-                HAL_GPIO_WritePin(load2_GPIO_Port, load2_Pin, GPIO_PIN_RESET);
-            }
-            else if(state == 1){
-                HAL_GPIO_WritePin(load2_GPIO_Port, load2_Pin, GPIO_PIN_SET);
-            }
-            break;
-        case open:
-            if(state == 0){
-                HAL_GPIO_WritePin(stretch_GPIO_Port, stretch_Pin, GPIO_PIN_RESET);
-            }
-            else if(state == 1){
-                HAL_GPIO_WritePin(stretch_GPIO_Port, stretch_Pin, GPIO_PIN_SET);
-            }
-            break;
-        case test:
-            if(state == 0){
-                HAL_GPIO_WritePin(test_GPIO_Port, test_Pin, GPIO_PIN_RESET);
-            }
-            else if(state == 1){
-                HAL_GPIO_WritePin(test_GPIO_Port, test_Pin, GPIO_PIN_SET);
-            }
-            break;
-    }
+
+//----------云台相关----------------------------
+GIMBAL Gimbal;   //云台结构体
+int16_t Theta;  //车体相对于目标点的切角
+int16_t Alpha;  //自转补偿
+//---------------------------------------------
+void Gimbal_controller(void)
+{
+    Gimbal.TAN = (Gimbal.target_point[1] - ROBOT_CHASSI.world_y)/(Gimbal.target_point[0] - ROBOT_CHASSI.world_x);   //正切角计算
+    Gimbal.Theta = atan(Gimbal.TAN);                        //弧度制
+    Gimbal.Theta = (Gimbal.Theta*180/3.14);     
+    Gimbal.Descripe = (float)1; //减速比，大概。需要问机械，有待更改
+    Gimbal.gimbal_angle = can1motorRealInfo[Motor_SHOOT_GIMBAL].REAL_ANGLE;           //Gimbal.gimbal_angle = can2motorRealInfo[3].REAL_ANGLE
+
+    Theta = (int16_t)Gimbal.Theta;
+    Alpha = (int16_t)ROBOT_CHASSI.world_w;
 }
 
-void lift_motor(float target_pos){
-    lim(&target_pos,lift2ground,lift2top);
-    if (target_pos == lift2ground)
+uint8_t claw_state = 1;     //夹爪状态，堵转时为0，为堵转为1
+void Shooting_Init(void)
+{  
+     //云台速度及瞄准位置赋值
+      Gimbal.target_point[0] = -100;      //X(后期设定)
+      Gimbal.target_point[1] = 100;     //Y
+      Gimbal.rpm = 350;
+    //发射机构停止
+    Speed_Control(&can1motorRealInfo[Motor_SHOOT_MOTOR_1],0);
+    Speed_Control(&can1motorRealInfo[Motor_SHOOT_MOTOR_2],0);
+    //夹爪复位
+    if(test_rise_time_up(ABS(can1motorRealInfo[Motor_SHOOT_lift].CURRENT),5500,locked_rotor_time)) claw_state = 0;   //堵转时夹爪停止下降       
+   //夹爪下降
+    if (claw_state)             //还没堵转
     {
-        if(can2motorRealInfo[Motor_UPLIFT].HomingMode.done_flag == 0){
-            Homeing_Mode(&can2motorRealInfo[Motor_UPLIFT], 1000, 4096);
-        }else{  
-            Position_Control(&can2motorRealInfo[Motor_UPLIFT], target_pos);
+        Speed_Control(&can1motorRealInfo[Motor_SHOOT_lift],-200);     //夹爪下来
+    }
+    else    //检测到堵转
+    {
+        Speed_Control(&can1motorRealInfo[Motor_SHOOT_lift],0); //速度调零
+        can1motorRealInfo[Motor_SHOOT_lift].REAL_ANGLE = 0;    //位置置零
+    }
+    Gimbal_controller();
+
+    if(Gimbal.gimbal_angle < 120 && Gimbal.gimbal_angle > -120)
+            {
+                if(YaoGan_RIGHT_Y !=0)
+                {
+                 if(YaoGan_RIGHT_Y-1500>100)
+                    Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],Gimbal.rpm);
+                else if(YaoGan_RIGHT_Y-1500<-100)
+                    Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],-Gimbal.rpm);
+                else
+                    Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],0);
+                }      
+            }
+            else
+            {
+               if(YaoGan_RIGHT_Y !=0)
+               {
+                 Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],0);
+                if(can1motorRealInfo[5].REAL_ANGLE > 120)
+                {
+                    if(YaoGan_RIGHT_Y-1500<-100)
+                        Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],-Gimbal.rpm);
+                }
+                else
+                {   
+                    if(YaoGan_RIGHT_Y-1500>100)
+                        Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],Gimbal.rpm);
+                }
+               }                    
+            }
+}
+
+/**
+ * @brief 射球函数   
+ * @param  NULL
+ * @return NULL5
+*/
+void Shooting_ball(void)
+{    //云台瞄准
+    Gimbal_controller();
+    Gimbal.centor_flag = 0;
+    if(Gimbal.gimbal_angle <= 120 && Gimbal.gimbal_angle >= -120)   
+    {   //感觉可以用位置环
+        if(Alpha+Theta > Gimbal.gimbal_angle+1)
+        {  
+            Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],Gimbal.rpm);
         }
-        Motor_Control();
-    }
-    else if (target_pos < lift2ground && target_pos >= lift2top)//软限位
-    {
-        can2motorRealInfo[Motor_UPLIFT].HomingMode.done_flag = 0;
-        Position_Control(&can2motorRealInfo[Motor_UPLIFT], target_pos);
-        Motor_Control();
-	}
-}
-
-void lift_hold(void){
-    Position_Control(&can2motorRealInfo[Motor_UPLIFT], can2motorRealInfo[Motor_UPLIFT].REAL_ANGLE);
-    Motor_Control();
-}
-
-void flip_motor(float target_angle){
-    lim(&target_angle,Flip2ground,Flip2top);
-    if (target_angle == Flip2ground)
-    {
-        if(can2motorRealInfo[Motor_FLIP].HomingMode.done_flag == 0){
-            Homeing_Mode(&can2motorRealInfo[Motor_FLIP], 1000, 4096);
-        }else{
-            Position_Control(&can2motorRealInfo[Motor_FLIP], target_angle);
+        else if(Alpha+Theta < Gimbal.gimbal_angle-1)
+        {
+            Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],-Gimbal.rpm);
         }
-        Motor_Control();
+        else
+        {
+            Speed_Control(&can1motorRealInfo[Motor_SHOOT_GIMBAL],0);     //成功瞄准
+            Gimbal.aim_flag = 1;       
+        }
     }
-    else if (target_angle < Flip2ground && target_angle >= Flip2top)//软限位
+    if (Gimbal.aim_flag)    //成功瞄准
     {
-        can2motorRealInfo[Motor_FLIP].HomingMode.done_flag = 0;
-        Position_Control(&can2motorRealInfo[Motor_FLIP], target_angle);
-        Motor_Control();
+        //发射       
+        Speed_Control(&can1motorRealInfo[Motor_SHOOT_MOTOR_1],-7000);
+        Speed_Control(&can1motorRealInfo[Motor_SHOOT_MOTOR_2],7000);    //履带转动
+
     }
-}
-
-void servos_start(void){
-    HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1);
-}
-
-int duty_logs = 0;
-void servos_control(float duty){
-    if(duty_logs != duty){
-        duty_logs = duty;
-        __HAL_TIM_SET_COMPARE(&htim13, TIM_CHANNEL_1, (-1 * duty + 230) * 100 / 9 + 500);//50 75 130
-        __HAL_TIM_SET_COMPARE(&htim14, TIM_CHANNEL_1, duty *  100 / 9 + 500);//180 155 100
+    if(test_rise_time_up(ABS(can1motorRealInfo[2].CURRENT),5500,locked_rotor_time)) claw_state = 0;   //堵转时夹爪停止下降       
+   //夹爪下降
+    if (claw_state)             //还没堵转
+    {
+        Speed_Control(&can1motorRealInfo[Motor_SHOOT_lift],-200);     //夹爪下来
     }
+    else    //检测到堵转
+    {
+        Speed_Control(&can1motorRealInfo[Motor_SHOOT_lift],0); //速度调零
+        can1motorRealInfo[Motor_SHOOT_lift].REAL_ANGLE = 0;    //位置置零
+    }    
 }
 
-void servos_stop(void){
-    HAL_TIM_PWM_Stop(&htim13, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Stop(&htim14, TIM_CHANNEL_1);
+/**
+ * @brief 装球函数    
+ * @param  NULL
+ * @return NULL
+*/
+void Load_Ball(int step)
+{   
+     if(step == 1){
+     Pos_Torque_Control(&can1motorRealInfo[Motor_SHOOT_JAW],4500,-160);
+               }
+
+     if(step == 2){
+     Position_Control(&can1motorRealInfo[6],115);
+     can1motorRealInfo[6].HomingMode.done_flag = 0;
+               }
 }
 
-void belt_ctrl(float target_spd){
-    float belt_spd[3] = {target_spd * 1.0f,target_spd * 1.0f,target_spd * 0.025f};//上一次：{target_spd * 0.025f,target_spd * 4.0f,target_spd * 0.025f}
-    Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_1], belt_spd[0]);//左
-    Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_2], belt_spd[1]);//右
-    Speed_Control(&can2motorRealInfo[Motor_BELT_MOTOR_3], belt_spd[2]);//上
-    Motor_Control();
+
+void shoot_jaw_homeing(int flag)
+{
+        if(flag == shoot_homeing_flag) {
+         if(can1motorRealInfo[6].HomingMode.done_flag == 0 ){
+          Homeing_Mode(&can1motorRealInfo[6],-500,3000);   
+     }       
+            else{
+            Pos_Torque_Control(&can1motorRealInfo[6],1000,0); 
+        }
+          }
 }
 
-void belt_logs(void){
-    sent_data(can2motorRealInfo[Motor_BELT_MOTOR_1].RPM,can2motorRealInfo[Motor_BELT_MOTOR_2].RPM,can2motorRealInfo[Motor_BELT_MOTOR_1].CURRENT,can2motorRealInfo[Motor_BELT_MOTOR_2].CURRENT);
+//判断球是否夹起来了，如果夹起来了，flag=1 夹爪抬升
+int flag_judgment(void){
+    if(ABS(can1motorRealInfo[Motor_SHOOT_JAW].REAL_ANGLE)>=160)    //后面用电流判断，改成速度环
+		{ 
+        return 1;
+		}
+		else{
+			  return 0;
+		} 
+
+}
+ uint16_t time_up = 0;
+/**
+  * @brief  检测是否堵转，堵转则返回1，否则返回0
+  * @param  电流，堵转电流，堵转时间
+  * @retval 
+  */
+uint8_t test_rise_time_up(int current,int boundary_current,int boundary_time)
+{ 
+  if(current<boundary_current) time_up=0;
+  if(current>boundary_current) time_up++;
+  if(time_up>=boundary_time)return 1;
+  return 0; 
 }
