@@ -34,6 +34,8 @@ void can2_config(void)
     can2motorRealInfo[3].Motor_Type = M_3508;//发射电机右
     can2motorRealInfo[4].Motor_Type = M_3508;//发射电机上
 
+    can2motorRealInfo[Motor_SHOOT_GIMBAL].once_flag = 1;
+
     //速度环
     pid_param_init(&can2MOTOR_PID_RPM[0], PID_Position, 8192, 900, 0, 0.1f, 16384, 20.0f, 0.0f, 0.0f);
     pid_param_init(&can2MOTOR_PID_RPM[1], PID_Incremental, 8192, 900, 0, 0.1f, 16384, 20.0f, 0.5f, 0.2f);

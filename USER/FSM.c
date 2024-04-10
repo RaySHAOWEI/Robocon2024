@@ -6,69 +6,68 @@
 
 ROBOT_STATE_ITEMS robot_state = ROBOT_STATE_INIT;
 CHASSIS_STATE_ITEMS chassis_state = CHASSIS_DISABLE;
-SEED_STATE_ITEMS last_seed_state,seed_state = SEED_STATE_DISABLE;
-SHOOT_STATE_ITEMS shoot_state = SHOOT_STATE_INIT;
+SEED_STATE_ITEMS last_seed_state, seed_state = SEED_STATE_DISABLE;
+SHOOT_STATE_ITEMS shoot_state = SHOOT_STATE_DISABLE;
 
-AREA SEED_AREA = {-0.1f, -0.1f, 50.0f, 50.0f};//瞎写的，期末没用
-AREA SHOOT_AREA = {-0.1f, 50.0f, 50.0f, 100.0f};//瞎写的，期末没用
+// AREA SEED_AREA = {-0.1f, -0.1f, 50.0f, 50.0f};//瞎写的，期末没用
+// AREA SHOOT_AREA = {-0.1f, 50.0f, 50.0f, 100.0f};//瞎写的，期末没用
 
 void robot_fsm(void)
 {
     switch (robot_state)
     {
-        case ROBOT_STATE_INIT:
-            chassis_init();
-            robot_state = ROBOT_STATE_CALIBRATION;
-            break;
+    case ROBOT_STATE_INIT:
+        chassis_state = CHASSIS_DISABLE;
+        if (SWA != 0 && SWB != 0 && SWC != 0 && SWD != 0)
+        { // 确认航模初始化成功
+            SWA_judge();
+            SWB_judge();
+            SWC_judge();
+            SWD_judge();
+        }
+        break;
 
-        case ROBOT_STATE_CALIBRATION:
-            chassis_state = CHASSIS_DISABLE;
-            if (SWA != 0 && SWB != 0 && SWC != 0 && SWD != 0){//确认航模初始化成功
-                SWA_judge();
-                SWB_judge();
-                SWC_judge();
-                SWD_judge();
-            }
-            break;
+    case ROBOT_STATE_AUTO_CTRL:
+        if (SWA == 0)
+        {
+            robot_state = ROBOT_STATE_INIT;
+        }
+        else
+        {
+            SWA_judge();
+            SWB_judge();
+            SWC_judge();
+            SWD_judge();
+        }
+        break;
 
-        case ROBOT_STATE_AUTO_CTRL:
-            if (SWA == 0){
-                robot_state = ROBOT_STATE_CALIBRATION;
-            }
-            else
-            {
-                SWA_judge();
-                SWB_judge();
-                SWC_judge();
-                SWD_judge();
-            }
-            break;
+    case ROBOT_STATE_SEED_CTRL:
+        if (SWA == 0)
+        {
+            robot_state = ROBOT_STATE_INIT;
+        }
+        else
+        {
+            SWA_judge();
+            SWB_judge();
+            SWC_judge();
+            SWD_judge();
+        }
+        break;
 
-        case ROBOT_STATE_SEED_CTRL:
-            if (SWA == 0){
-                robot_state = ROBOT_STATE_CALIBRATION;
-            }
-            else
-            {
-                SWA_judge();
-                SWB_judge();
-                SWC_judge();
-                SWD_judge();
-            }
-            break;
-
-        case ROBOT_STATE_SHOOT_CTRL:
-            if (SWA == 0){
-                robot_state = ROBOT_STATE_CALIBRATION;
-            }
-            else
-            {
-                SWA_judge();
-                SWB_judge();
-                SWC_judge();
-                SWD_judge();
-            }
-            break;
+    case ROBOT_STATE_SHOOT_CTRL:
+        if (SWA == 0)
+        {
+            robot_state = ROBOT_STATE_INIT;
+        }
+        else
+        {
+            SWA_judge();
+            SWB_judge();
+            SWC_judge();
+            SWD_judge();
+        }
+        break;
     }
 }
 
@@ -106,10 +105,12 @@ void SWB_judge(void)
     else if (1300 < SWB && SWB < 1700)
     {
         robot_state = ROBOT_STATE_SEED_CTRL;
+        shoot_state = SHOOT_STATE_DISABLE;
     }
     else if (SWB > 1800)
     {
         robot_state = ROBOT_STATE_SHOOT_CTRL;
+        seed_state = SEED_STATE_DISABLE;
     }
 }
 
@@ -123,7 +124,6 @@ void SWC_judge(void)
         }
         else if (robot_state == ROBOT_STATE_SHOOT_CTRL)
         {
-            seed_state = SEED_STATE_DISABLE;
             shoot_state = SHOOT_STATE_INIT;
         }
     }
@@ -155,13 +155,12 @@ void SWD_judge(void)
 {
     if (SWD < 1500)
     {
-        //路径规划关
-        ROBOT_CHASSI.World_Move_Flag = 1;
+        // 路径规划关
+        ROBOT_CHASSI.World_Move_Flag = 0;
     }
     else if (SWD > 1500)
     {
-        //路径规划开
-        // ROBOT_CHASSI.Path_planning = 1;
-        ROBOT_CHASSI.World_Move_Flag = 0;
+        // 路径规划开
+        ROBOT_CHASSI.World_Move_Flag = 1;
     }
 }

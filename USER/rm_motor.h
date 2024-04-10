@@ -16,6 +16,7 @@ typedef enum
     POSITION_CONTROL_MODE,
     SPEED_TARQUE_CONTROL_MODE,
     POSITION_TORQUE_MODE,
+    POSITION_SPEED_LIMIT_MODE,
     HOMEING_MODE
 }Motor_Mode_e;
 
@@ -67,7 +68,7 @@ typedef struct
     int16_t  	TARGET_CURRENT;		// 目标转矩电流
 
     int16_t  TARGET_POS;		//目标角度(位置)
-    int16_t  TARGET_TORQUE;//目标转矩，用电流表示
+    int16_t  TARGET_TORQUE;     //目标转矩，用电流表示
     float    TARGET_RPM;		//目标转速
 
     HOMING_MODE_TYPE 		HomingMode;			//电机回零模式
@@ -85,13 +86,16 @@ void get_motor_measure(CAN_RxHeaderTypeDef *msg, uint8_t Data[8], CAN_HandleType
 void RM_MOTOR_Angle_Integral(MOTOR_REAL_INFO* RM_MOTOR);
 void M3508_Send_Currents(void);
 void Motor_Control(void);
-void Homeing_Mode(MOTOR_REAL_INFO* RM_MOTOR, float homeing_vel,int16_t homeing_torque);
+
+
+int Speed_Control(MOTOR_REAL_INFO* RM_MOTOR, float Target_RPM);
+int Vel_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque, float Target_Vel);
 int Position_Control(MOTOR_REAL_INFO *MOTOR_REAL_INFO,float Target_Pos);
 int Pos_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque, float Target_Pos);
-void Speed_Control(MOTOR_REAL_INFO* RM_MOTOR, float Target_RPM);
-void Vel_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque, float Target_Vel);
-// M3508返回的电机真实信息
+int Pos_Velimit_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, float Target_Vel, float Target_Pos);
+void Homeing_Mode(MOTOR_REAL_INFO* RM_MOTOR, float homeing_vel,int16_t homeing_torque);
 
+// M3508返回的电机真实信息
 extern MOTOR_REAL_INFO can1motorRealInfo[7];//can1
 extern MOTOR_REAL_INFO can2motorRealInfo[7];//can2
 
