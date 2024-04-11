@@ -7,17 +7,14 @@
 
 #include "main.h"
 
-extern TIM_HandleTypeDef htim13;
-extern TIM_HandleTypeDef htim14;
-
 /**
  * @brief 电机ID定义 can2
  */
-#define Motor_SHOOT_MOTOR_1 1 // 发射电机1
-#define Motor_SHOOT_MOTOR_2 2 // 发射电机2
-#define Motor_SHOOT_FLIP 3    // 射球翻转电机
-#define Motor_SHOOT_JAW 4     // 夹球夹爪2006电机
-#define Motor_SHOOT_GIMBAL 5  // 发射云台6020电机
+#define Motor_SHOOT_MOTOR_1 0 // 发射电机1
+#define Motor_SHOOT_MOTOR_2 1 // 发射电机2
+#define Motor_SHOOT_FLIP 2    // 射球翻转电机
+#define Motor_SHOOT_JAW 3     // 夹球夹爪2006电机
+#define Motor_SHOOT_GIMBAL 4  // 发射云台6020电机
 
 /**
  * @brief 翻转电机转动角度

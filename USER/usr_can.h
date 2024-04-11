@@ -12,4 +12,4 @@ extern CAN_HandleTypeDef hcan2;
 
 void can_filter_init(void);
 
-#endif //INC_2024RC_B_R1_USR_CAN_H
+#endif // INC_2024RC_B_R1_USR_CAN_H

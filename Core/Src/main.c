@@ -95,23 +95,23 @@ int main(void)
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_TIM2_Init();
-  MX_TIM13_Init();
-  MX_TIM14_Init();
   MX_UART4_Init();
   MX_USART1_UART_Init();
   MX_UART5_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2); // 初始化定时器2
 
-  // uint8_t USART_Receiver1;
-  // HAL_UART_Receive_IT(&huart4,&USART_Receiver1,1);//初始化action
-
   Usart1_Init();
+  Usart2_Init();
   Uart4_Init();
   Uart5_Init();
 
   HAL_UARTEx_ReceiveToIdle_DMA(&huart1, Usart1.ProcessBuff, Max_BUFF_Len);
   __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // 关闭DMA半传输中断
+
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart2, Usart2.ProcessBuff, Max_BUFF_Len);
+  __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT); // 关闭DMA半传输中断
 
   HAL_UARTEx_ReceiveToIdle_DMA(&huart4, Usart4.ProcessBuff, Max_BUFF_Len);
   __HAL_DMA_DISABLE_IT(&hdma_uart4_rx, DMA_IT_HT); // 关闭DMA半传输中断

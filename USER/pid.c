@@ -9,11 +9,13 @@
  * @param input 输入值
  * @param max 限定值
  */
-void LimitMax(float *input, float max) {
-    if (*input > max) *input = max;
-    if (*input < -max) *input = -max;
+void LimitMax(float *input, float max)
+{
+    if (*input > max)
+        *input = max;
+    if (*input < -max)
+        *input = -max;
 }
-
 
 /**
  * @brief PID参数初始化
@@ -29,16 +31,17 @@ void LimitMax(float *input, float max) {
  * @param kd
  */
 void pid_param_init(
-        PID_T *pid,
-        pidSt mode,
-        float maxOutput,
-        float integralLimit,
-        float IntegralSeparate,
-        float deadband,
-        float max_err,
-        float kp,
-        float ki,
-        float kd){
+    PID_T *pid,
+    pidSt mode,
+    float maxOutput,
+    float integralLimit,
+    float IntegralSeparate,
+    float deadband,
+    float max_err,
+    float kp,
+    float ki,
+    float kd)
+{
     pid->mode = mode;
     pid->MaxOutput = maxOutput;
     pid->IntegralLimit = integralLimit;
@@ -54,6 +57,11 @@ void pid_param_init(
     pid->first_flag = 1;
 }
 
+void pid_fast_init(PID_T *pid, float maxOutput, float kp, float ki, float kd)
+{
+    pid_param_init(pid, PID_Position, maxOutput, maxOutput / 8, 0, 0, 0, kp, ki, kd);
+}
+
 /**
  * @brief 中途修改pid参数
  * @param pid PID结构体
@@ -61,7 +69,8 @@ void pid_param_init(
  * @param ki 参数i
  * @param kd 参数d
  */
-void pid_reset(PID_T *pid, float kp, float ki, float kd) {
+void pid_reset(PID_T *pid, float kp, float ki, float kd)
+{
     pid->kp = kp;
     pid->ki = ki;
     pid->kd = kd;
@@ -75,59 +84,65 @@ void pid_reset(PID_T *pid, float kp, float ki, float kd) {
  * @param target 目标值
  * @return
  */
-float pid_calc(PID_T *pid, float target, float measure){
-    pid->measure[NOW] = measure;                                         //更新本次最新测量值
+float pid_calc(PID_T *pid, float target, float measure)
+{
+    pid->measure[NOW] = measure; // 更新本次最新测量值
     pid->target[NOW] = target;
-    pid->err[NOW] = pid->target[NOW] - pid->measure[NOW];                     //更新误差值
+    pid->err[NOW] = pid->target[NOW] - pid->measure[NOW]; // 更新误差值
 
     if (pid->first_flag == 1)
     {
-        pid->err[LAST] = pid->err[NOW];                                 //第一次运行，上次误差等于本次误差
+        pid->err[LAST] = pid->err[NOW]; // 第一次运行，上次误差等于本次误差
+        pid->err[PREV] = pid->err[NOW]; // 第一次运行，上上次误差等于本次误差
         pid->first_flag = 0;
     }
 
-    if (pid->Max_Err != 0 && ABS(pid->err[NOW]) > pid->Max_Err)        //误差超过限制跳出
+    if (pid->Max_Err != 0 && ABS(pid->err[NOW]) > pid->Max_Err) // 误差超过限制跳出
     {
-		pid->output = 0;
+        pid->output = 0;
         return 0;
     }
-        
-    if (pid->DeadBand != 0 && ABS(pid->err[NOW]) < pid->DeadBand)       //误差小于死区跳出
-	{
-		pid->output = 0;
-        return 0;
-	}
 
-    if (pid->mode == PID_Position) {
-        pid->pout = pid->kp * pid->err[NOW];                           //p输出为Kp*误差
+    if (pid->DeadBand != 0 && ABS(pid->err[NOW]) < pid->DeadBand) // 误差小于死区跳出
+    {
+        pid->output = 0;
+        return 0;
+    }
+
+    if (pid->mode == PID_Position)
+    {
+        pid->pout = pid->kp * pid->err[NOW]; // p输出为Kp*误差
 
         if (pid->IntegralSeparate == 0)
-            pid->iout += pid->ki * pid->err[NOW];                       //i输出为i+ki*误差
-        else {//积分分离
+            pid->iout += pid->ki * pid->err[NOW]; // i输出为i+ki*误差
+        else
+        { // 积分分离
             if (ABS(pid->err[NOW]) < pid->IntegralSeparate)
-                pid->iout += pid->ki * pid->err[NOW];                   //i输出为i+ki*误差
+                pid->iout += pid->ki * pid->err[NOW]; // i输出为i+ki*误差
             else
-                pid->iout = 0;                                          //i输出为0
+                pid->iout = 0; // i输出为0
         }
-        LimitMax(&(pid->iout), pid->IntegralLimit);          //积分是否超出限制
+        LimitMax(&(pid->iout), pid->IntegralLimit); // 积分是否超出限制
 
-        pid->dout = pid->kd * (pid->err[NOW] - pid->err[LAST]);        //d输出为kd*（误差-上次误差）
+        pid->dout = pid->kd * (pid->err[NOW] - pid->err[LAST]); // d输出为kd*（误差-上次误差）
 
-        pid->fout = pid->kf * (pid->target[NOW] - pid->target[LAST]);  //前馈输出
+        pid->fout = pid->kf * (pid->target[NOW] - pid->target[LAST]); // 前馈输出
 
-        pid->output = pid->pout + pid->iout + pid->dout + pid->fout;                //pid输出和
-        //pid->output = pid->output*0.7f + pid->last_output*0.3f;       //滤波
+        pid->output = pid->pout + pid->iout + pid->dout + pid->fout; // pid输出和
+        // pid->output = pid->output*0.7f + pid->last_output*0.3f;       //滤波
         LimitMax(&(pid->output), pid->MaxOutput);
-        pid->last_output = pid->output;                                 //更新数据
-    } else if (pid->mode == PID_Incremental) {
-        pid->pout = pid->kp * (pid->err[NOW] - pid->err[LAST]);         //p输出为Kp * 误差增量
-        pid->iout = pid->ki * pid->err[NOW];                            //i输出为ki * 误差
+        pid->last_output = pid->output; // 更新数据
+    }
+    else if (pid->mode == PID_Incremental)
+    {
+        pid->pout = pid->kp * (pid->err[NOW] - pid->err[LAST]); // p输出为Kp * 误差增量
+        pid->iout = pid->ki * pid->err[NOW];                    // i输出为ki * 误差
         pid->dout = pid->kd * (pid->err[NOW] - (2 * pid->err[LAST]) + pid->err[PREV]);
-        //d输出为kd *（误差-2*上次误差+上上次误差）
+        // d输出为kd *（误差-2*上次误差+上上次误差）
 
         // LimitMax(&(pid->iout), pid->IntegralLimit);         //积分是否超出限制
-        pid->output = pid->last_output + (pid->pout + pid->iout + pid->dout);   //pid输出和
-        //pid->output = pid->output*0.7f + pid->last_output*0.3f;   //滤波？
+        pid->output = pid->last_output + (pid->pout + pid->iout + pid->dout); // pid输出和
+        // pid->output = pid->output*0.7f + pid->last_output*0.3f;   //滤波？
         LimitMax(&(pid->output), pid->MaxOutput);
         pid->last_output = pid->output;
     }
@@ -145,5 +160,5 @@ float pid_calc(PID_T *pid, float target, float measure){
 
 float pid_calc_by_error(PID_T *pid, float error)
 {
-    return pid_calc(pid, 0, error);
+    return pid_calc(pid, 0.0f, error);
 }

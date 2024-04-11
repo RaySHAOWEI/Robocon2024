@@ -430,7 +430,7 @@ void Motor_Control(void)
                 can1motorRealInfo[i].REAL_ANGLE = 0.0f;
                 can1motorRealInfo[i].TARGET_RPM = 0.0f;
             }
-            pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM);                                // 速度环
+            pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM); // 速度环
             break;
         }
 
@@ -508,7 +508,7 @@ void Motor_Control(void)
                 can2motorRealInfo[i].REAL_ANGLE = 0.0f;
                 can2motorRealInfo[i].TARGET_RPM = 0.0f;
             }
-            pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM);                                // 速度环
+            pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM); // 速度环
             break;
         }
 
@@ -527,29 +527,39 @@ void Motor_Control(void)
         {
             if (can1motorRealInfo[i].Motor_Type == M_3508)
             {
-                can1motorRealInfo[i].MotorMaxCurrent = 10650;
-                if (can1motorRealInfo[i].CURRENT > 13000)
-                { // 10000mA * 1.3 = 13000
-                    can1motorRealInfo[i].Motor_Mode = MOTO_OFF;
+                can1motorRealInfo[i].MotorMaxCurrent = 10650; // 10A * 1.3 / 20 * 16384
+                if (can1motorRealInfo[i].current_limit == 1)  // 不限流
+                {
+                    can1motorRealInfo[i].TARGET_CURRENT = can1MOTOR_PID_RPM[i].output;
                 }
                 else
                 {
-                    can1motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can1MOTOR_PID_RPM[i].output, 10650); // 10A * 1.3 / 20 * 16384
+                    can1motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can1MOTOR_PID_RPM[i].output, can1motorRealInfo[i].MotorMaxCurrent);
                 }
             }
             else if (can1motorRealInfo[i].Motor_Type == M_2006)
             {
-                can1motorRealInfo[i].MotorMaxCurrent = 3195;
-                if (can1motorRealInfo[i].CURRENT > 3900)
-                { // 3000mA * 1.3 = 3900
-                    can1motorRealInfo[i].Motor_Mode = MOTO_OFF;
+                can1motorRealInfo[i].MotorMaxCurrent = 3195; // 3A * 1.3 / 20 * 16384
+                if (can1motorRealInfo[i].current_limit == 1) // 不限流
+                {
+                    can1motorRealInfo[i].TARGET_CURRENT = can1MOTOR_PID_RPM[i].output;
                 }
-                can1motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can1MOTOR_PID_RPM[i].output, 3195); // 3A * 1.3 / 20 * 16384
+                else
+                {
+                    can1motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can1MOTOR_PID_RPM[i].output, can1motorRealInfo[i].MotorMaxCurrent);
+                }
             }
             else if (can1motorRealInfo[i].Motor_Type == M_6020)
             {
-                can1motorRealInfo[i].MotorMaxCurrent = 30000;
-                can1motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can1MOTOR_PID_RPM[i].output, 30000); // 赋值为电压值，最高30000，自带限流
+                can1motorRealInfo[i].MotorMaxCurrent = 30000; // 赋值为电压值，最高30000，自带限流
+                if (can1motorRealInfo[i].current_limit == 1)  // 不限流
+                {
+                    can1motorRealInfo[i].TARGET_CURRENT = can1MOTOR_PID_RPM[i].output;
+                }
+                else
+                {
+                    can1motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can1MOTOR_PID_RPM[i].output, can1motorRealInfo[i].MotorMaxCurrent);
+                }
             }
             else
             {
@@ -569,29 +579,39 @@ void Motor_Control(void)
         {
             if (can2motorRealInfo[i].Motor_Type == M_3508)
             {
-                can2motorRealInfo[i].MotorMaxCurrent = 10650;
-                if (can2motorRealInfo[i].CURRENT > 13000)
-                { // 10000mA * 1.3 = 13000
-                    can2motorRealInfo[i].Motor_Mode = MOTO_OFF;
+                can2motorRealInfo[i].MotorMaxCurrent = 10650; // 10A * 1.3 / 20 * 16384
+                if (can2motorRealInfo[i].current_limit == 1)  // 不限流
+                {
+                    can2motorRealInfo[i].TARGET_CURRENT = can2MOTOR_PID_RPM[i].output;
                 }
                 else
                 {
-                    can2motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can2MOTOR_PID_RPM[i].output, 10650); // 10A * 1.3 / 20 * 16384
+                    can2motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can2MOTOR_PID_RPM[i].output, can2motorRealInfo[i].MotorMaxCurrent);
                 }
             }
             else if (can2motorRealInfo[i].Motor_Type == M_2006)
             {
-                can2motorRealInfo[i].MotorMaxCurrent = 3195;
-                if (can2motorRealInfo[i].CURRENT > 3900)
-                { // 3000mA * 1.3 = 3900
-                    can2motorRealInfo[i].Motor_Mode = MOTO_OFF;
+                can2motorRealInfo[i].MotorMaxCurrent = 3195; // 3A * 1.3 / 20 * 16384
+                if (can2motorRealInfo[i].current_limit == 1) // 不限流
+                {
+                    can2motorRealInfo[i].TARGET_CURRENT = can2MOTOR_PID_RPM[i].output;
                 }
-                can2motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can2MOTOR_PID_RPM[i].output, 3195); // 3A * 1.3 / 20 * 16384
+                else
+                {
+                    can2motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can2MOTOR_PID_RPM[i].output, can2motorRealInfo[i].MotorMaxCurrent);
+                }
             }
             else if (can2motorRealInfo[i].Motor_Type == M_6020)
             {
-                can2motorRealInfo[i].MotorMaxCurrent = 30000;
-                can2motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can2MOTOR_PID_RPM[i].output, 30000); // 赋值为电压值，最高30000，自带限流
+                can2motorRealInfo[i].MotorMaxCurrent = 30000; // 赋值为电压值，最高30000，自带限流
+                if (can2motorRealInfo[i].current_limit == 1)  // 不限流
+                {
+                    can2motorRealInfo[i].TARGET_CURRENT = can2MOTOR_PID_RPM[i].output;
+                }
+                else
+                {
+                    can2motorRealInfo[i].TARGET_CURRENT = Max_Value_Limit(can2MOTOR_PID_RPM[i].output, can2motorRealInfo[i].MotorMaxCurrent);
+                }
             }
             else
             {
@@ -674,10 +694,10 @@ int Pos_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque, 
 /**
  * @brief 位置限速模式
  * 以限定的速度到达指定位置
- * @param 电机结构体 
+ * @param 电机结构体
  * @param Target_Vel 目标速度
  * @param Target_Pos 目标位置
- * @return int 
+ * @return int
  */
 int Pos_Velimit_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, float Target_Vel, float Target_Pos)
 {

@@ -5,6 +5,7 @@
 #include "usr_uart.h"
 
 Usart_struct Usart1 = {0};
+Usart_struct Usart2 = {0};
 Usart_struct Usart4 = {0};
 Usart_struct Usart5 = {0};
 
@@ -80,21 +81,26 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
 	if (huart == &huart1)
 	{
-		// feedback.receive_cnt++;
 		processData(&Usart1, Size);
-		// feedback_test();
 		HAL_UARTEx_ReceiveToIdle_DMA(&huart1, Usart1.ProcessBuff, Max_BUFF_Len);
 		__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // 关闭DMA半传输中断
 	}
 
-	if (huart == &huart4)//action
+	if (huart == &huart2)
+	{
+		processData(&Usart2, Size);
+		HAL_UARTEx_ReceiveToIdle_DMA(&huart2, Usart2.ProcessBuff, Max_BUFF_Len);
+		__HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT); // 关闭DMA半传输中断
+	}
+
+	if (huart == &huart4) // action
 	{
 		processData(&Usart4, Size);
 		HAL_UARTEx_ReceiveToIdle_DMA(&huart4, Usart4.ProcessBuff, Max_BUFF_Len);
 		__HAL_DMA_DISABLE_IT(&hdma_uart4_rx, DMA_IT_HT); // 关闭DMA半传输中断
 	}
 
-	if (huart == &huart5)//dt35
+	if (huart == &huart5) // dt35
 	{
 		processData(&Usart5, Size);
 		HAL_UARTEx_ReceiveToIdle_DMA(&huart5, Usart5.ProcessBuff, Max_BUFF_Len);
@@ -104,25 +110,32 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
 void Usart1_Init(void)
 {
-    Usart1.HEAD=0xAA;
-    Usart1.ADDR=0xFF;
-    Usart1.checkMode=Command_data;
+	Usart1.HEAD = 0xAA;
+	Usart1.ADDR = 0xFF;
+	Usart1.checkMode = Command_data;
+}
+
+void Usart2_Init(void)
+{
+	Usart2.HEAD = 0xAA;
+	Usart2.ADDR = 0xFF;
+	Usart2.checkMode = Command_data;
 }
 
 void Uart4_Init(void)
 {
-	Usart4.HEAD=0x0D;
-	Usart4.ADDR=0x0A;
-	Usart4.checkMode=Action_data;
+	Usart4.HEAD = 0x0D;
+	Usart4.ADDR = 0x0A;
+	Usart4.checkMode = Action_data;
 	Usart4.END[0] = 0x0A;
 	Usart4.END[1] = 0x0D;
 }
 
 void Uart5_Init(void)
 {
-	Usart5.HEAD=0x55;
-	Usart5.ADDR=0xAA;
-	Usart5.checkMode=DT35_data;
+	Usart5.HEAD = 0x55;
+	Usart5.ADDR = 0xAA;
+	Usart5.checkMode = DT35_data;
 	Usart5.END[0] = 0x0D;
 	Usart5.END[1] = 0x0A;
 }
@@ -147,7 +160,7 @@ void processData(Usart_struct *data, uint16_t len)
 		memset(data->ProcessBuff, 0, Max_BUFF_Len);
 		memset(data->DATA, 0, Max_DATA_Len);
 		return;
-	}//接收到的数据太少，直接跳出
+	} // 接收到的数据太少，直接跳出
 
 	for (i = 0; i < data->Size; i++)
 	{
@@ -163,7 +176,7 @@ void processData(Usart_struct *data, uint16_t len)
 			}
 			break;
 		}
-	}//复制到处理缓存
+	} // 复制到处理缓存
 
 	if (data->checkMode == Command_data)
 	{
@@ -181,10 +194,11 @@ void processData(Usart_struct *data, uint16_t len)
 
 void action_analysis(Usart_struct *data)
 {
-	static union {
-		uint8_t data[24];  
+	static union
+	{
+		uint8_t data[24];
 		float ActVal[6];
-	}posture;
+	} posture;
 
 	if (data->ProcessBuff[0] == data->HEAD && data->ProcessBuff[1] == data->ADDR)
 	{
@@ -194,14 +208,13 @@ void action_analysis(Usart_struct *data)
 	else
 	{
 		return;
-	
 	}
 
 	if (data->ProcessBuff[26] == data->END[0] && data->ProcessBuff[27] == data->END[1])
 	{
 		Update_Action_gl_position(posture.ActVal);
 	}
-	else 
+	else
 	{
 		return;
 	}
@@ -209,8 +222,8 @@ void action_analysis(Usart_struct *data)
 
 /**
  * @brief DT35数据解析 0x55 0xAA lenth [16] crc8 0x0D 0x0A
- * 
- * @param data 
+ *
+ * @param data
  */
 void DT35_analysis(Usart_struct *data)
 {
@@ -218,7 +231,7 @@ void DT35_analysis(Usart_struct *data)
 	{
 		int d;
 		uint8_t data[4];
-	}x_position,y_position,k_position,b_position;
+	} x_position, y_position, k_position, b_position;
 
 	if (data->ProcessBuff[0] == data->HEAD && data->ProcessBuff[1] == data->ADDR)
 	{
@@ -233,8 +246,8 @@ void DT35_analysis(Usart_struct *data)
 	{
 		return;
 	}
-	//跳过校验
-	//接受数据尾
+	// 跳过校验
+	// 接受数据尾
 	if (data->ProcessBuff[20] == data->END[0] && data->ProcessBuff[21] == data->END[1])
 	{
 		Update_DT35(x_position.d, y_position.d, k_position.d, b_position.d);
@@ -276,11 +289,11 @@ void command_analysis(Usart_struct *data)
 	{
 		data->Checked = 1;
 		feedback.command_cnt++;
-		if(memcmp(data->DATA, &data->ProcessBuff[4], data->Len) != 0)
+		if (memcmp(data->DATA, &data->ProcessBuff[4], data->Len) != 0)
 		{
 			memcpy(data->DATA, &data->ProcessBuff[4], data->Len);
 		}
-		else 
+		else
 		{
 			data->new_data = 0;
 		}

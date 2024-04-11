@@ -204,31 +204,24 @@ void Chassis_Task(void *argument)
   {
     if (chassis_state == CHASSIS_DISABLE)
     {
-      ROBOT_CHASSI.Vx_MAX = 0.0f;
-      ROBOT_CHASSI.Vy_MAX = 0.0f;
-      ROBOT_CHASSI.Vw_MAX = 0.0f;
+      ROBOT_CHASSI.Vx_MAX = 0;
+      ROBOT_CHASSI.Vy_MAX = 0;
+      ROBOT_CHASSI.Vw_MAX = 0;
       chassis_stop();
     }
     else if (chassis_state == CHASSIS_STATE_HIGH_SPEED)
     {
-      ROBOT_CHASSI.Vx_MAX = 1.6f;
-      ROBOT_CHASSI.Vy_MAX = 1.6f;
-      ROBOT_CHASSI.Vw_MAX = 2.0f;
+      ROBOT_CHASSI.Vx_MAX = 1600;
+      ROBOT_CHASSI.Vy_MAX = 1600;
+      ROBOT_CHASSI.Vw_MAX = 2000;
     }
     else if (chassis_state == CHASSIS_STATE_LOW_SPEED)
     {
-      ROBOT_CHASSI.Vx_MAX = 0.4f;
-      ROBOT_CHASSI.Vy_MAX = 0.4f;
-      ROBOT_CHASSI.Vw_MAX = 0.5f;
+      ROBOT_CHASSI.Vx_MAX = 400;
+      ROBOT_CHASSI.Vy_MAX = 400;
+      ROBOT_CHASSI.Vw_MAX = 500;
     }
-    if (robot_state == ROBOT_STATE_SEED_CTRL)
-    {
-      free_ctrl_change();
-    }
-    else
-    {
-      Free_Control();
-    }
+    Free_Control();
     Robot_Wheels_RPM_calculate();
     osDelay(1);
   }
@@ -371,18 +364,12 @@ void CommTask(void *argument)
   {
     if (seed_state != last_seed_state)
     {
-      for (int i = 0; i < 2; i++)
-      {
-        ctrl_sent_test(seed_state);
-      }
+      ctrl_sent_test(seed_state);
       last_seed_state = seed_state;
     }
     if (feedback.lost_cnt != lost_back)
     {
-      for (int i = 0; i < 2; i++)
-      {
-        ctrl_sent_test(seed_state);
-      }
+      ctrl_sent_test(seed_state);
       lost_back = feedback.lost_cnt;
     }
     osDelay(10);

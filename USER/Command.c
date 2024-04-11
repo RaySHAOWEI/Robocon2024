@@ -69,15 +69,15 @@ void ctrl_sent_test(uint8_t command)
 
 void feedback_process(uint8_t *data)
 {
-	if(Usart1.Checked==1)
+	if (Usart1.Checked == 1)
 	{
-		if(Usart1.ID==0xF3)
+		if (Usart1.ID == 0xF3)
 		{
-			feedback.command_cnt=data[0];
-			feedback.receive_cnt=data[1];
-			feedback.lost_cnt=data[2];
-			feedback.state=data[3];
-			memcpy(feedback.motor_state, data+4, 4);
+			feedback.command_cnt = data[0];
+			feedback.receive_cnt = data[1];
+			feedback.lost_cnt = data[2];
+			feedback.state = data[3];
+			memcpy(feedback.motor_state, data + 4, 4);
 		}
 	}
 }

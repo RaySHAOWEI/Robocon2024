@@ -85,7 +85,11 @@ void SWA_judge(void)
 
 void auto_switch(void)
 {
-    //
+    /*
+    自动模式：swb拨到第一档：根据当前action定位决定模式
+                swd拨到第一档，半自动，需要操作机器人位置和拨动swc决定具体状态
+                swd拨到第二档，全自动，不需要操作机器人
+    */
 }
 
 void SWB_judge(void)
