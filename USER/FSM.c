@@ -83,23 +83,16 @@ void SWA_judge(void)
     }
 }
 
-// void auto_switch(void)
-// {
-//     if(ROBOT_CHASSI.world_x < SEED_AREA.x_max && ROBOT_CHASSI.world_x >= SEED_AREA.x_min && ROBOT_CHASSI.world_y < SEED_AREA.y_max && ROBOT_CHASSI.world_y >= SEED_AREA.y_min)
-//     {
-//         robot_state = ROBOT_STATE_SEED_CTRL;
-//     }
-//     else if(ROBOT_CHASSI.world_x < SHOOT_AREA.x_max && ROBOT_CHASSI.world_x >= SHOOT_AREA.x_min && ROBOT_CHASSI.world_y < SHOOT_AREA.y_max && ROBOT_CHASSI.world_y >= SHOOT_AREA.y_min)
-//     {
-//         robot_state = ROBOT_STATE_SHOOT_CTRL;
-//     }
-// }
+void auto_switch(void)
+{
+    //
+}
 
 void SWB_judge(void)
 {
     if (SWB < 1200)
     {
-        // auto_switch();//根据action全场定位判断当前是哪个模式
+        auto_switch(); // 根据action全场定位判断当前是哪个模式
         // robot_state = ROBOT_STATE_AUTO_CTRL;
     }
     else if (1300 < SWB && SWB < 1700)
