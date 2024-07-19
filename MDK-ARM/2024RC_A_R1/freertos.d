@@ -36,6 +36,8 @@
 2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
+2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h
+2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h
 2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 2024rc_a_r1\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
@@ -59,5 +61,7 @@
 2024rc_a_r1\freertos.o: ../Core/Inc/usart.h
 2024rc_a_r1\freertos.o: ../USER/DT35.h
 2024rc_a_r1\freertos.o: ../USER/move.h
+2024rc_a_r1\freertos.o: ../USER/move_right.h
+2024rc_a_r1\freertos.o: ../USER/sensor.h
 2024rc_a_r1\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 2024rc_a_r1\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h

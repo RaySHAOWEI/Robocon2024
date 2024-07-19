@@ -5,6 +5,7 @@
 "2024rc_a_r1\freertos.o"
 "2024rc_a_r1\can.o"
 "2024rc_a_r1\dma.o"
+"2024rc_a_r1\i2c.o"
 "2024rc_a_r1\tim.o"
 "2024rc_a_r1\usart.o"
 "2024rc_a_r1\stm32f4xx_it.o"
@@ -24,6 +25,8 @@
 "2024rc_a_r1\stm32f4xx_hal_cortex.o"
 "2024rc_a_r1\stm32f4xx_hal.o"
 "2024rc_a_r1\stm32f4xx_hal_exti.o"
+"2024rc_a_r1\stm32f4xx_hal_i2c.o"
+"2024rc_a_r1\stm32f4xx_hal_i2c_ex.o"
 "2024rc_a_r1\stm32f4xx_hal_tim.o"
 "2024rc_a_r1\stm32f4xx_hal_tim_ex.o"
 "2024rc_a_r1\stm32f4xx_hal_uart.o"
@@ -51,6 +54,8 @@
 "2024rc_a_r1\usr_uart.o"
 "2024rc_a_r1\command.o"
 "2024rc_a_r1\dt35.o"
+"2024rc_a_r1\move_right.o"
+"2024rc_a_r1\sensor.o"
 --strict --scatter "2024RC_A_R1\2024RC_A_R1.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

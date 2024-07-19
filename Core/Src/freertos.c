@@ -72,7 +72,7 @@ const osThreadAttr_t Gimbal_attributes = {
 osThreadId_t ShootHandle;
 const osThreadAttr_t Shoot_attributes = {
     .name = "Shoot",
-    .stack_size = 128 * 4,
+    .stack_size = 256 * 4,
     .priority = (osPriority_t)osPriorityLow,
 };
 /* Definitions for Motor */
@@ -96,6 +96,13 @@ const osThreadAttr_t Move_attributes = {
     .stack_size = 256 * 4,
     .priority = (osPriority_t)osPriorityLow,
 };
+/* Definitions for sensor */
+osThreadId_t sensorHandle;
+const osThreadAttr_t sensor_attributes = {
+    .name = "sensor",
+    .stack_size = 128 * 4,
+    .priority = (osPriority_t)osPriorityLow,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -109,6 +116,7 @@ void Shoot_Task(void *argument);
 void MotorTask(void *argument);
 void CommTask(void *argument);
 void MoveTask(void *argument);
+void sensor_fun(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -161,6 +169,9 @@ void MX_FREERTOS_Init(void)
   /* creation of Move */
   MoveHandle = osThreadNew(MoveTask, NULL, &Move_attributes);
 
+  /* creation of sensor */
+  sensorHandle = osThreadNew(sensor_fun, NULL, &sensor_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -183,6 +194,15 @@ void FSM_Task(void *argument)
   /* Infinite loop */
   for (;;)
   {
+    // 用于切换场地
+    if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2))
+    {
+      field = Right;
+    }
+    else
+    {
+      field = Left;
+    }
     robot_fsm();
     osDelay(1);
   }
@@ -217,9 +237,12 @@ void Chassis_Task(void *argument)
     }
     else if (chassis_state == CHASSIS_STATE_LOW_SPEED)
     {
-      ROBOT_CHASSI.Vx_MAX = 400;
-      ROBOT_CHASSI.Vy_MAX = 400;
-      ROBOT_CHASSI.Vw_MAX = 500;
+      //      ROBOT_CHASSI.Vx_MAX = 800;
+      //      ROBOT_CHASSI.Vy_MAX = 800;
+      //      ROBOT_CHASSI.Vw_MAX = 1000;
+      ROBOT_CHASSI.Vx_MAX = 1600;
+      ROBOT_CHASSI.Vy_MAX = 1600;
+      ROBOT_CHASSI.Vw_MAX = 2000;
     }
     Free_Control();
     Robot_Wheels_RPM_calculate();
@@ -241,7 +264,92 @@ void Gimbal_Task(void *argument)
   /* Infinite loop */
   for (;;)
   {
-    gimbal_free_ctrl();
+    switch (gimbal_state)
+    {
+    case GIMBAL_STATE_DISABLE:
+      Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], 3300);
+      belt_speed = 5000;
+      // belt_calc(field, GIMBAL_STATE_DISABLE);
+      break;
+
+    case GIMBAL_AIM_1:
+      if (field == Left)
+      {
+        Gimbal.target_point[0] = shooting_point_x[1];
+        Gimbal.target_point[1] = shooting_point_y[1];
+      }
+      else if (field == Right)
+      {
+        Gimbal.target_point[0] = shooting_point_x[4];
+        Gimbal.target_point[1] = shooting_point_y[4];
+      }
+      Gimbal_controller();
+      if (Theta <= 140 && Theta >= -140)
+      {
+        if (Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], Alpha))
+        {
+          Gimbal.aim_flag = Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], Alpha);
+        }
+      }
+      belt_calc(field, GIMBAL_AIM_1);
+      break;
+
+    case GIMBAL_AIM_2:
+      if (field == Left)
+      {
+        Gimbal.target_point[0] = shooting_point_x[2];
+        Gimbal.target_point[1] = shooting_point_y[2];
+      }
+      else if (field == Right)
+      {
+        Gimbal.target_point[0] = shooting_point_x[5];
+        Gimbal.target_point[1] = shooting_point_y[5];
+      }
+      Gimbal_controller();
+      if (Theta <= 140 && Theta >= -140)
+      {
+        if (Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], Alpha))
+        {
+          Gimbal.aim_flag = Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], Alpha);
+        }
+      }
+      belt_calc(field, GIMBAL_AIM_2);
+      break;
+
+    case GIMBAL_AIM_3:
+      if (field == Left)
+      {
+        Gimbal.target_point[0] = shooting_point_x[3];
+        Gimbal.target_point[1] = shooting_point_y[3];
+      }
+      else if (field == Right)
+      {
+        Gimbal.target_point[0] = shooting_point_x[6];
+        Gimbal.target_point[1] = shooting_point_y[6];
+      }
+      Gimbal_controller();
+      if (Theta <= 140 && Theta >= -140)
+      {
+        if (Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], Alpha))
+        {
+          Gimbal.aim_flag = Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], Alpha);
+        }
+      }
+      belt_calc(field, GIMBAL_AIM_3);
+      break;
+    default:
+      break;
+    }
+    // // sent_data(-1 * can1motorRealInfo[0].RPM, -1 * can1motorRealInfo[1].RPM, can1motorRealInfo[2].RPM, can1motorRealInfo[3].RPM);
+    // if (ball == 0 || shooting_point == 0)
+    // {
+    //   Position_Control(&can2motorRealInfo[Motor_SHOOT_GIMBAL], 3300);
+    // }
+    // else
+    // {
+    //   Auto_shooting_Init(); // 自动瞄准初始化
+    // }
+    // ball_auto(field);
     osDelay(10);
   }
   /* USER CODE END Gimbal_Task */
@@ -257,72 +365,96 @@ void Gimbal_Task(void *argument)
 void Shoot_Task(void *argument)
 {
   /* USER CODE BEGIN Shoot_Task */
-  static int ball_jaw = 0;  // 夹爪是否夹着球 0:没球 1:有球
-  static int ball_load = 0; // 发射仓是否有球 0:没球 1:有球
+
   /* Infinite loop */
+  static int catch_start = 0; // 夹取计时开启标志位
+  static int catch_time = 0;  // 夹取计时
+  int catch_time_max = 150;   // 夹取计时最大值
   for (;;)
   {
     switch (shoot_state)
     {
     case SHOOT_STATE_DISABLE:
       /*失能*/
-      flip_motor(flip_up);     // 翻转电机上升到高处防止夹苗干涉
-      back2init;               // 气缸复位
-      belt_ctrl(belt_stop);    // 摩擦带停止
-      gimbal_ctrl(gimbal_mid); // 云台回中
+      flip_motor(flip_init); // 翻转电机抬升
+      jaw_open;              // 夹爪张开
+      ball_loaded = 0;       // 球未装填
+      back_ball;             // 推射气缸回位
+      belt_ctrl(belt_stop);  // 摩擦带停止
+      gimbal_state = GIMBAL_STATE_DISABLE;
+      shooting_point = 0;
+      belt_speed = 0;
       break;
     case SHOOT_STATE_INIT:
       /*初始化*/
-      back2init;             // 气缸复位
-      flip_motor(flip_down); // 翻转电机下降到初始位置
-      jaw_motor(jaw_open);   // 夹爪张开
-      belt_ctrl(belt_speed); // 摩擦带转动
+      jaw_open;              // 夹爪张开
+      ball_loaded = 0;       // 球未装填
+      back_ball;             // 推射气缸回位
+      flip_motor(flip_down); // 翻转电机下降
+      catch_start = 0;       // 关闭夹爪计时
+                             //	  belt_ctrl(belt_speed);
       break;
     case SHOOT_STATE_LOAD:
       /*取球*/
-      back2init;             // 气缸复位
-      belt_ctrl(belt_speed); // 摩擦带转动
-
-      if (ball_load == 1) // 球已上膛
+      belt_ctrl(belt_stop);                // 摩擦带停止
+      jaw_close;                           // 夹爪夹紧
+      back_ball;                           // 推射气缸回位
+      catch_start = 1;                     // 开启计时
+      if (catch_time > catch_time_max - 1) // 1000ms后
       {
-        if (ball_jaw == 0) // 夹爪没球
+        flip_motor(flip_up); // 翻转电机抬升
+        if (flip_motor(flip_up) == 0)
         {
-          flip_motor(flip_up); // 保持翻转上，等待射球
+          ball_loaded = 1; // 球已装填
+          jaw_open;        // 装填
         }
       }
-      else if (ball_load == 0) // 球没上膛
+      else
       {
-        if (ball_jaw == 0) // 夹爪没球
-        {
-          if (flip_motor(flip_down) == 0) // 等待翻转下
-          {
-            ball_jaw = jaw_motor(jaw_close); // 夹球 夹紧时判定：夹爪有球
-          }
-          else // 翻转电机未到位
-          {
-            jaw_motor(jaw_open); // 夹爪松开
-          }
-        }
-        else if (ball_jaw == 1) // 夹爪有球
-        {
-          if (flip_motor(flip_up)) // 等待翻转上
-          {
-            ball_jaw = jaw_motor(jaw_open); // 放球 松开时判定：夹爪没球
-            ball_load = 1;                  // 同时判定：球已上膛
-          }
-          else
-          {
-            jaw_motor(jaw_close); // 夹爪夹紧防止球滚落
-          }
-        }
+        flip_motor(flip_down); // 翻转电机下降
       }
       break;
     case SHOOT_STATE_SHOOTING:
       /*发射*/
-      belt_ctrl(belt_speed); // 摩擦带转动
-      shootball;             // 发射
-      ball_load = 0;         // 球没上膛
+      jaw_open; // 夹爪张开
+      // if (ball != 0)
+      // {
+      //   belt_ctrl(belt_speed);
+      // }
+      // else if (ball == 0)
+      // {
+      //   belt_base();
+      // }
+      belt_ctrl(belt_speed);
+      if (shooting_enable)
+      {
+        push_ball; // 推射气缸推出
+      }
+      if (catch_time > catch_time_max - 1) // 1000ms后
+      {
+        flip_motor(flip_down); // 翻转电机下降
+      }
+      if (flip_motor(flip_down) == 1)
+      {
+        ball_loaded = 0; // 球未装填
+        catch_start = 0; // 关闭夹爪计时
+      }
       break;
+    }
+    if (catch_start == 1)
+    {
+      if (catch_time < catch_time_max)
+      {
+        catch_time++;
+      }
+      else
+      {
+        catch_time = catch_time_max;
+      }
+    }
+    else
+    {
+      catch_time = 0;
     }
     osDelay(1);
   }
@@ -358,7 +490,8 @@ void MotorTask(void *argument)
 void CommTask(void *argument)
 {
   /* USER CODE BEGIN CommTask */
-  static int lost_back;
+  static int seed_lost_back1;
+  static int seed_lost_back2;
   /* Infinite loop */
   for (;;)
   {
@@ -367,12 +500,28 @@ void CommTask(void *argument)
       ctrl_sent_test(seed_state);
       last_seed_state = seed_state;
     }
-    if (feedback.lost_cnt != lost_back)
+    if (feedback1.lost_cnt != seed_lost_back1 || feedback2.lost_cnt != seed_lost_back2)
     {
       ctrl_sent_test(seed_state);
-      lost_back = feedback.lost_cnt;
+      seed_lost_back1 = feedback1.lost_cnt;
+      seed_lost_back2 = feedback2.lost_cnt;
     }
-    osDelay(10);
+
+    // 键盘反馈数据更新
+    keyboard_feedbacks.auto_state = auto_state;
+    keyboard_feedbacks.move_state = move_state_switch(move_state);
+    keyboard_feedbacks.direction = direction;
+    keyboard_feedbacks.seed = seed;
+    keyboard_feedbacks.put = put;
+    keyboard_feedbacks.gimbal_state = gimbal_state;
+    keyboard_feedbacks.lost_cnt = keyboard_feedbacks.receive_cnt - keyboard_feedbacks.command_cnt;
+    if (memcmp(&keyboard_feedbacks, &last_keyboard_feedbacks, 9) != 0)
+    {
+      keyboard_feedback_send();
+      memcpy(&last_keyboard_feedbacks, &keyboard_feedbacks, 9);
+    }
+
+    osDelay(100);
   }
   /* USER CODE END CommTask */
 }
@@ -388,11 +537,274 @@ void MoveTask(void *argument)
 {
   /* USER CODE BEGIN MoveTask */
   /* Infinite loop */
+  //  static float tt17 = 0;
+  static int seed_preput = 0;
+  static int seed_chack = 0;
   for (;;)
   {
-    osDelay(1);
+    if (caculation_ok)
+    {
+      YawAdjust(0.0);
+    }
+    switch (move_state)
+    {
+    case MOVE_STATE_INIT:
+      ROBOT_CHASSI.plan_x = 0;
+      ROBOT_CHASSI.plan_y = 0;
+      //      ROBOT_CHASSI.plan_w = 0;
+      break;
+
+    case MOVE_STATE_WAIT_SEED:
+      robot_state = ROBOT_STATE_SEED_CTRL;
+      ROBOT_CHASSI.plan_x = 0;
+      ROBOT_CHASSI.plan_y = 0;
+      //      ROBOT_CHASSI.plan_w = 0;
+      if (SWD < 1500)
+      {
+        seed_state = SEED_STATE_INIT;
+      }
+      else if (SWD > 1500)
+      {
+        seed_state = SEED_STATE_PEEK_DOWN;
+
+        if (feedback2.state == SEED_STATE_PEEK_UP && feedback2.motor_state[2] == 2)
+        {
+          update_action_put = 1;
+          put = 2 * seed - 1;
+          move_state = MOVE_STATE_PUT;
+        }
+      }
+      break;
+
+    case MOVE_STATE_WAIT_PUT:
+      robot_state = ROBOT_STATE_SEED_CTRL;
+      ROBOT_CHASSI.plan_x = 0;
+      ROBOT_CHASSI.plan_y = 0;
+      //      ROBOT_CHASSI.plan_w = 0;
+      if (SWD < 1500)
+      {
+        if (put == 1)
+        {
+          seed_state = field == 0 ? SEED_STATE_PUT : SEED_STATE_PUT_BLUE;
+          seed_chack = 0;
+          if (feedback2.motor_state[field] == 0)
+          {
+            update_action_put = 1;
+            put = 2;
+            move_state = MOVE_STATE_PUT;
+          }
+        }
+        else if (put == 3)
+        {
+          seed_state = field == 0 ? SEED_STATE_PUT : SEED_STATE_PUT_BLUE;
+          seed_chack = 0;
+          if (feedback2.motor_state[field] == 0)
+          {
+            update_action_put = 1;
+            put = 4;
+            move_state = MOVE_STATE_PUT;
+          }
+        }
+        else if (put == 5)
+        {
+          seed_state = field == 0 ? SEED_STATE_PUT : SEED_STATE_PUT_BLUE;
+          seed_chack = 0;
+          if (feedback2.motor_state[field] == 0)
+          {
+            update_action_put = 1;
+            put = 6;
+            move_state = MOVE_STATE_PUT;
+          }
+        }
+        else // put为双数 2 4 6
+        {
+          if (seed_chack == 0)
+          {
+            seed_state = field == 0 ? SEED_STATE_PUT : SEED_STATE_PUT_BLUE;
+          }
+          else if (seed_chack == 1)
+          {
+            seed_state = SEED_STATE_INIT;
+            seed_preput = 0;
+          }
+        }
+      }
+      else if (SWD > 1500)
+      {
+        if (seed_preput == 1)
+        {
+          seed_chack = 1;
+          seed_state = SEED_STATE_HALF;
+        }
+        else if (seed_preput == 0)
+        {
+          seed_state = SEED_STATE_PEEK_UP;
+        }
+      }
+      break;
+
+    case MOVE_STATE_WAIT_CATCH:
+      robot_state = ROBOT_STATE_SHOOT_CTRL;
+      ROBOT_CHASSI.plan_x = 0;
+      ROBOT_CHASSI.plan_y = 0;
+      //      ROBOT_CHASSI.plan_w = 0;
+      break;
+
+    case MOVE_STATE_WAIT_ACTION:
+
+      break;
+
+    case MOVE_INIT_ACTION:
+
+      break;
+
+    case MOVE_STATE_SEED:
+      robot_state = ROBOT_STATE_SEED_CTRL;
+      seed_state = SEED_STATE_JAW_INIT;
+      if (field == Left)
+      {
+        move_seed();
+      }
+      else
+      {
+        move_seed_right();
+      }
+
+      break;
+
+    case MOVE_SEED_LASER:
+      robot_state = ROBOT_STATE_SEED_CTRL;
+      seed_state = SEED_STATE_INIT;
+      if (field == Left)
+      {
+        laser_seed();
+      }
+      else
+      {
+        //		  point_to_point(3321,280,0.0,500);
+        laser_seed_right();
+      }
+      break;
+
+    case MOVE_PUT_LASER:
+      robot_state = ROBOT_STATE_SEED_CTRL;
+      if (put == 1 || put == 3 || put == 5)
+      {
+        seed_state = SEED_STATE_HALF;
+        seed_preput = 1;
+      }
+      else if (put == 2 || put == 4 || put == 6)
+      {
+        seed_state = field == 0 ? SEED_STATE_PUT : SEED_STATE_PUT_BLUE;
+        seed_chack = 0;
+      }
+
+      if (field == Left)
+      {
+        laser_put();
+      }
+      else
+      {
+        laser_put_right();
+      }
+      break;
+
+    case MOVE_STATE_PUT:
+      robot_state = ROBOT_STATE_SEED_CTRL;
+      if (field == Left)
+      {
+        put_seed();
+      }
+      else
+      {
+        put_seed_right();
+      }
+
+      break;
+
+    case MOVE_STATE_LASER:
+      robot_state = ROBOT_STATE_SHOOT_CTRL;
+      if (field == Left)
+      {
+        laser_catch();
+      }
+      else
+      {
+
+        laser_catch_right();
+      }
+
+      break;
+
+    case MOVE_STATE_ACTION_NEAR:
+      ////		if(Laser2_calibration(DT35.y,DT35.x))
+      //	    if(YawAdjust(0.0))
+      //		{
+      //		 ROBOT_CHASSI.plan_x = 0;
+      //		if(Laser3_calibration(449,100))
+      //					{
+      //					    ROBOT_CHASSI.plan_x = 0;
+      //		                ROBOT_CHASSI.plan_y = 0;
+      //		                ROBOT_CHASSI.plan_w = 0;
+      //					    move_state = MOVE_STATE_INIT;
+      //				       //不确定要不要加上倒车，看看测试 这里加上夹爪放苗之类的即可
+      ////					   move_state = MOVE_STATE_LASER_NEAR;
+      //					}
+      //      laser_catch_near();
+      robot_state = ROBOT_STATE_SHOOT_CTRL;
+      action_catch();
+
+      //				}
+
+      break;
+
+    case CALIBRATION_BY_ACTION:
+
+      action_calibration();
+
+      break;
+    case MOVE_BALL_BY_ACTION:
+      robot_state = ROBOT_STATE_SHOOT_CTRL;
+      if (field == Left)
+      {
+        action_catch_ball();
+      }
+      else
+      {
+
+        action_catch_ball_right();
+      }
+      break;
+
+    case MOVE_BY_ACTION:
+
+      action_catch();
+
+      break;
+    }
+    osDelay(10);
   }
   /* USER CODE END MoveTask */
+}
+
+/* USER CODE BEGIN Header_sensor_fun */
+/**
+ * @brief Function implementing the sensor thread.
+ * @param argument: Not used
+ * @retval None
+ */
+/* USER CODE END Header_sensor_fun */
+void sensor_fun(void *argument)
+{
+  /* USER CODE BEGIN sensor_fun */
+  /* Infinite loop */
+  for (;;)
+  {
+    //    tcs34725_work();
+    sent_data(can1motorRealInfo[0].RPM, can1motorRealInfo[1].RPM, -1 * can1motorRealInfo[2].RPM, -1 * can1motorRealInfo[3].RPM);
+    osDelay(10);
+  }
+  /* USER CODE END sensor_fun */
 }
 
 /* Private application code --------------------------------------------------*/

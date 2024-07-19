@@ -48,6 +48,8 @@ extern "C" {
 #include "usr_uart.h"
 #include "DT35.h"
 #include "move.h"
+#include "move_right.h"
+#include "sensor.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

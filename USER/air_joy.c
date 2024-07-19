@@ -14,6 +14,7 @@ uint32_t TIME_ISR_CNT = 0, LAST_TIME_ISR_CNT = 0;
 uint16_t Microsecond_Cnt = 0;
 uint16_t Time_Sys[4] = {0};
 
+uint16_t test_data[10] = {1500,1500,1500,1500,1000,1000,1000,1000,0,0};
 static uint16_t PPM_buf[10] = {0};
 uint16_t PPM_Databuf[10] = {0};
 uint8_t ppm_update_flag = 0;
@@ -49,6 +50,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			if (ppm_sample_cnt >= 8)					// 单次解析结束0-7表示8个通道。我这里可以显示10个通道，故这个值应该为0-9！！待修改
 			{
 				memcpy(PPM_Databuf, PPM_buf, ppm_sample_cnt * sizeof(uint16_t)); // 复制到PPM_Databuf中
+//				memcpy(PPM_Databuf, test_data, ppm_sample_cnt * sizeof(uint16_t)); // 复制到PPM_Databuf中
 				// ppm_ready=0;
 				ppm_sample_cnt = 0;
 			}

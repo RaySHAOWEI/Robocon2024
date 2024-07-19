@@ -388,14 +388,29 @@ void Motor_Control(void)
                 can1motorRealInfo[i].TARGET_RPM = can1MOTOR_PID_POS[i].output;
                 pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM); // 速度环
             }
-            pid_calc(&can1MOTOR_PID_POS[i], can1motorRealInfo[i].TARGET_POS, can1motorRealInfo[i].REAL_ANGLE); // 位置环
-            can1motorRealInfo[i].TARGET_RPM = can1MOTOR_PID_POS[i].output;
-            pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM); // 速度环
+            else
+            {
+                pid_calc(&can1MOTOR_PID_POS[i], can1motorRealInfo[i].TARGET_POS, can1motorRealInfo[i].REAL_ANGLE); // 位置环
+                can1motorRealInfo[i].TARGET_RPM = can1MOTOR_PID_POS[i].output;
+                pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM); // 速度环
+            }
             break;
         }
 
         case SPEED_TARQUE_CONTROL_MODE: // 速度转矩模式
         {
+            if (ABS(can1motorRealInfo[i].CURRENT) < can1motorRealInfo[i].TARGET_TORQUE)
+                can1motorRealInfo[i].stop_cnt = 0;
+            if (ABS(can1motorRealInfo[i].CURRENT) >= can1motorRealInfo[i].TARGET_TORQUE || ABS(can1motorRealInfo[i].CURRENT) >= can1motorRealInfo[i].MotorMaxCurrent)
+                can1motorRealInfo[i].stop_cnt++;
+            if (can1motorRealInfo[i].stop_cnt >= 30) // 计数30次
+            {
+                can1motorRealInfo[i].stop_flag = 1; // 标志位置1
+            }
+            else if (can1motorRealInfo[i].stop_cnt < 30)
+            {
+                can1motorRealInfo[i].stop_flag = 0; // 标志位置0
+            }
             pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM);                     // 速度环
             can1MOTOR_PID_RPM[i].output = Max_Value_Limit(can1MOTOR_PID_RPM[i].output, can1motorRealInfo[i].TARGET_TORQUE); // 限制转矩模式时电流值
             break;
@@ -434,6 +449,29 @@ void Motor_Control(void)
             break;
         }
 
+        case SETTING_MODE: // 设置模式
+        {
+            if (ABS(can1motorRealInfo[i].CURRENT) <= 1.5 * can1motorRealInfo[i].SettingMode.TARGET_TORQUE)
+                can1motorRealInfo[i].SettingMode.cnt = 0;
+            if (ABS(can1motorRealInfo[i].CURRENT) > 1.5 * can1motorRealInfo[i].SettingMode.TARGET_TORQUE || ABS(can1motorRealInfo[i].CURRENT) >= can1motorRealInfo[i].MotorMaxCurrent)
+                can1motorRealInfo[i].SettingMode.cnt++;
+            if (can1motorRealInfo[i].SettingMode.cnt >= 30) // 计数30次
+            {
+                can1motorRealInfo[i].SettingMode.done_flag = 1; // 标志位置一，建议使用这个模式的时候加个判断，判断该标志位是1的时候切换其他控制模式。
+                can1motorRealInfo[i].REAL_ANGLE = can1motorRealInfo[i].SettingMode.SETTING_ANGLE;
+                can1motorRealInfo[i].TARGET_RPM = 0.0f;
+            }
+            pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM); // 速度环
+            break;
+        }
+
+        case VELOCITY_PLANNING_MODE: // 梯形模式
+        {
+            Velocity_Planning(&can1motorRealInfo[i]);
+            pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM);
+            break;
+        }
+
         default:
             break;
         }
@@ -466,14 +504,29 @@ void Motor_Control(void)
                 can2motorRealInfo[i].TARGET_RPM = can2MOTOR_PID_POS[i].output;
                 pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM); // 速度环
             }
-            pid_calc(&can2MOTOR_PID_POS[i], can2motorRealInfo[i].TARGET_POS, can2motorRealInfo[i].REAL_ANGLE); // 位置环
-            can2motorRealInfo[i].TARGET_RPM = can2MOTOR_PID_POS[i].output;
-            pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM); // 速度环
+            else
+            {
+                pid_calc(&can2MOTOR_PID_POS[i], can2motorRealInfo[i].TARGET_POS, can2motorRealInfo[i].REAL_ANGLE); // 位置环
+                can2motorRealInfo[i].TARGET_RPM = can2MOTOR_PID_POS[i].output;
+                pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM); // 速度环
+            }
             break;
         }
 
         case SPEED_TARQUE_CONTROL_MODE: // 速度转矩模式
         {
+            if (ABS(can2motorRealInfo[i].CURRENT) < can2motorRealInfo[i].TARGET_TORQUE)
+                can2motorRealInfo[i].stop_cnt = 0;
+            if (ABS(can2motorRealInfo[i].CURRENT) >= can2motorRealInfo[i].TARGET_TORQUE || ABS(can2motorRealInfo[i].CURRENT) >= can2motorRealInfo[i].MotorMaxCurrent)
+                can2motorRealInfo[i].stop_cnt++;
+            if (can2motorRealInfo[i].stop_cnt >= 30) // 计数30次
+            {
+                can2motorRealInfo[i].stop_flag = 1; // 标志位置1
+            }
+            else if (can2motorRealInfo[i].stop_cnt < 30)
+            {
+                can2motorRealInfo[i].stop_flag = 0; // 标志位置0
+            }
             pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM);                     // 速度环
             can2MOTOR_PID_RPM[i].output = Max_Value_Limit(can2MOTOR_PID_RPM[i].output, can2motorRealInfo[i].TARGET_TORQUE); // 限制转矩模式时电流值
             break;
@@ -512,6 +565,29 @@ void Motor_Control(void)
             break;
         }
 
+        case SETTING_MODE: // 设置模式
+        {
+            if (ABS(can2motorRealInfo[i].CURRENT) <= 1.5 * can2motorRealInfo[i].SettingMode.TARGET_TORQUE)
+                can2motorRealInfo[i].SettingMode.cnt = 0;
+            if (ABS(can2motorRealInfo[i].CURRENT) > 1.5 * can2motorRealInfo[i].SettingMode.TARGET_TORQUE || ABS(can2motorRealInfo[i].CURRENT) >= can2motorRealInfo[i].MotorMaxCurrent)
+                can2motorRealInfo[i].SettingMode.cnt++;
+            if (can2motorRealInfo[i].SettingMode.cnt >= 30) // 计数30次
+            {
+                can2motorRealInfo[i].SettingMode.done_flag = 1; // 标志位置一，建议使用这个模式的时候加个判断，判断该标志位是1的时候切换其他控制模式。
+                can2motorRealInfo[i].REAL_ANGLE = can2motorRealInfo[i].SettingMode.SETTING_ANGLE;
+                can2motorRealInfo[i].TARGET_RPM = 0.0f;
+            }
+            pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM); // 速度环
+            break;
+        }
+
+        case VELOCITY_PLANNING_MODE: // 梯形模式
+        {
+            Velocity_Planning(&can2motorRealInfo[i]);
+            pid_calc(&can2MOTOR_PID_RPM[i], can2motorRealInfo[i].TARGET_RPM, can2motorRealInfo[i].RPM);
+            break;
+        }
+
         default:
             break;
         }
@@ -520,7 +596,7 @@ void Motor_Control(void)
     // can1电机转动参数
     for (int i = 0; i < 7; i++)
     {
-        if (can1motorRealInfo[i].Motor_Mode == CURRENT_MODE) // 防止选择该模式却无法判断
+        if (can1motorRealInfo[i].Motor_Mode == CURRENT_MODE || can1motorRealInfo[i].Motor_Mode == MOTO_OFF) // 防止选择该模式却无法判断
         {
         } // 电流模式下的特殊情况
         else
@@ -551,7 +627,7 @@ void Motor_Control(void)
             }
             else if (can1motorRealInfo[i].Motor_Type == M_6020)
             {
-                can1motorRealInfo[i].MotorMaxCurrent = 30000; // 赋值为电压值，最高30000，自带限流
+                can1motorRealInfo[i].MotorMaxCurrent = 25000; // 赋值为电流值，最高25000，自带限流
                 if (can1motorRealInfo[i].current_limit == 1)  // 不限流
                 {
                     can1motorRealInfo[i].TARGET_CURRENT = can1MOTOR_PID_RPM[i].output;
@@ -571,7 +647,7 @@ void Motor_Control(void)
     // can2电机转动参数
     for (int i = 0; i < 7; i++)
     {
-        if (can2motorRealInfo[i].Motor_Mode == CURRENT_MODE) // 防止选择该模式却无法判断
+        if (can2motorRealInfo[i].Motor_Mode == CURRENT_MODE || can2motorRealInfo[i].Motor_Mode == MOTO_OFF) // 防止选择该模式却无法判断
         {
 
         } // 电流模式下的特殊情况
@@ -603,7 +679,7 @@ void Motor_Control(void)
             }
             else if (can2motorRealInfo[i].Motor_Type == M_6020)
             {
-                can2motorRealInfo[i].MotorMaxCurrent = 30000; // 赋值为电压值，最高30000，自带限流
+                can2motorRealInfo[i].MotorMaxCurrent = 25000; // 赋值为电压值，最高25000，自带限流
                 if (can2motorRealInfo[i].current_limit == 1)  // 不限流
                 {
                     can2motorRealInfo[i].TARGET_CURRENT = can2MOTOR_PID_RPM[i].output;
@@ -633,7 +709,7 @@ int Speed_Control(MOTOR_REAL_INFO *RM_MOTOR, float Target_RPM)
 {
     RM_MOTOR->Motor_Mode = SPEED_CONTROL_MODE;
     RM_MOTOR->TARGET_RPM = Target_RPM;
-    if (ABS(RM_MOTOR->RPM - Target_RPM) < 5)
+    if (ABS(RM_MOTOR->RPM - Target_RPM) <= 130)
         return 1;
     else
         return 0;
@@ -643,19 +719,14 @@ int Speed_Control(MOTOR_REAL_INFO *RM_MOTOR, float Target_RPM)
  * @brief  速度转矩控制函数,假如你要改变电机的转向，那么直接改变Target_Vel的值即可
  * @param  target_torque目标转矩,用电流表示（正数类型）
  * @param  target_vel目标位置（有正负，代表转向）
- * @retval 是否到达目标速度返回1，堵转返回0
+ * @retval 正常返回1，堵转返回0
  */
 int Vel_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque, float Target_Vel)
 {
-    int i;
     MOTO_REAL_INFO->Motor_Mode = SPEED_TARQUE_CONTROL_MODE;
     MOTO_REAL_INFO->TARGET_RPM = Target_Vel;
     MOTO_REAL_INFO->TARGET_TORQUE = Target_Torque;
-    if (ABS(MOTO_REAL_INFO->RPM - Target_Vel) < 5)
-        i = 1;
-    else if (ABS(MOTO_REAL_INFO->RPM) <= 1 && ABS(MOTO_REAL_INFO->CURRENT) >= Target_Torque)
-        i = 0;
-    return i;
+    return MOTO_REAL_INFO->stop_flag;
 }
 
 /**
@@ -724,4 +795,124 @@ void Homeing_Mode(MOTOR_REAL_INFO *RM_MOTOR, float homeing_vel, int16_t homeing_
     RM_MOTOR->HomingMode.TARGET_TORQUE = homeing_torque;
     // 赋值给外部
     RM_MOTOR->TARGET_RPM = RM_MOTOR->HomingMode.Vel;
+}
+/**
+ * @brief 设置模式
+ *
+ * @param RM_MOTOR
+ * @param homeing_vel
+ */
+void Setting_Mode(MOTOR_REAL_INFO *RM_MOTOR, float vel, int16_t torque, float angle)
+{
+    RM_MOTOR->Motor_Mode = SETTING_MODE;
+    // 内部存值
+    RM_MOTOR->SettingMode.SETTING_ANGLE = angle;
+    RM_MOTOR->SettingMode.TARGET_TORQUE = torque;
+    RM_MOTOR->SettingMode.Vel = vel;
+    // 赋值给外部
+    RM_MOTOR->TARGET_RPM = RM_MOTOR->SettingMode.Vel;
+}
+
+/**
+ * @brief  设置速度规划的参数，开启速度规划控制
+ * @param
+ * @param float Pstart;        //开始位置
+ * @param float Pend;          //结束位置
+ * @param float Vstart;        //开始的速度  单位：RPM 绝对值
+ * @param float Vmax;          //最大的速度
+ * @param float Vend;          //末尾的速度
+ * @param float Rac;           //加速路程的比例
+ * @param float Rde;           //减速路程的比例
+ * @retval NULL
+ */
+void Planning_Mode(MOTOR_REAL_INFO *M3508_MOTOR, float Pstart, float Pend, float Vstart, float Vmax, float Vend, float Rac, float Rde)
+{
+    M3508_MOTOR->Motor_Mode = VELOCITY_PLANNING_MODE; // 配置模式
+    M3508_MOTOR->Velocity_Planning.Pstart = Pstart;
+    M3508_MOTOR->Velocity_Planning.Pend = Pend;
+    M3508_MOTOR->Velocity_Planning.Vstart = Vstart;
+    M3508_MOTOR->Velocity_Planning.Vmax = Vmax;
+    M3508_MOTOR->Velocity_Planning.Vend = Vend;
+    M3508_MOTOR->Velocity_Planning.Rac = Rac;
+    M3508_MOTOR->Velocity_Planning.Rde = Rde;
+}
+
+/**
+ * @brief 梯度速度规划
+ * @param M电机结构体
+ * @return NULL
+ */
+void Velocity_Planning(MOTOR_REAL_INFO *M3508_MOTOR)
+{
+    // 公式：(V1^2 - V2^2) = 2ax
+    // static int cnt;//记时用
+    float Ssu; // 总路程
+    float Sac; // 加速路程
+    float Sde; // 减速路程
+    float Sco; // 匀速路程
+    float Aac; // 加速加速度
+    float Ade; // 减速加速度
+    float S;   // 当前路程
+
+    // 如果所配数据有误，则不执行速度规划
+    if ((M3508_MOTOR->Velocity_Planning.Rac > 1) || (M3508_MOTOR->Velocity_Planning.Rac < 0) || // 加速路程的比例
+        (M3508_MOTOR->Velocity_Planning.Rde > 1) || (M3508_MOTOR->Velocity_Planning.Rde < 0) || // 减速路程的比例
+        (M3508_MOTOR->Velocity_Planning.Vmax < M3508_MOTOR->Velocity_Planning.Vstart))          // 最大的速度<开始的速度
+    {
+        M3508_MOTOR->TARGET_RPM = 0; // 令夹爪不运动
+        return;
+    }
+    // 匀速模式
+    if (M3508_MOTOR->Velocity_Planning.Pstart == M3508_MOTOR->Velocity_Planning.Pend) // 开始位置=结束位置
+    {
+        M3508_MOTOR->TARGET_RPM = M3508_MOTOR->Velocity_Planning.Vmax; // 最大的速度
+        return;
+    }
+
+    // 计算一些变量
+    Ssu = ABS(M3508_MOTOR->Velocity_Planning.Pend - M3508_MOTOR->Velocity_Planning.Pstart);                                                                                           // 总路程
+    Sac = Ssu * M3508_MOTOR->Velocity_Planning.Rac;                                                                                                                                   // 加速路程 =	总路程 * 加速路程的比例
+    Sde = Ssu * M3508_MOTOR->Velocity_Planning.Rde;                                                                                                                                   // 减速路程 =	总路程 * 减速路程的比例
+    Sco = Ssu - Sac - Sde;                                                                                                                                                            // 匀速路程 = 总路程 - 加速路程 - 减速路程
+    Aac = (M3508_MOTOR->Velocity_Planning.Vmax * M3508_MOTOR->Velocity_Planning.Vmax - M3508_MOTOR->Velocity_Planning.Vstart * M3508_MOTOR->Velocity_Planning.Vstart) / (2.0f * Sac); // 加速加速度 (最大的速度*最大的速度 - 开始的速度 *开始的速度 ) / (2.0f * 加速路程)
+    Ade = (M3508_MOTOR->Velocity_Planning.Vend * M3508_MOTOR->Velocity_Planning.Vend - M3508_MOTOR->Velocity_Planning.Vmax * M3508_MOTOR->Velocity_Planning.Vmax) / (2.0f * Sde);     // 减速加速度 (末速度*末速度 - 最大速度 * 最大速度 ) / (2.0f * 加速路程)
+
+    // 过滤异常情况
+    if (((M3508_MOTOR->Velocity_Planning.Pend > M3508_MOTOR->Velocity_Planning.Pstart) && (M3508_MOTOR->REAL_ANGLE < M3508_MOTOR->Velocity_Planning.Pstart)) || //[(结束位置 > 开始位置) && (处理过的真实角度pos <开始位置)]	||
+        ((M3508_MOTOR->Velocity_Planning.Pend < M3508_MOTOR->Velocity_Planning.Pstart) && (M3508_MOTOR->REAL_ANGLE > M3508_MOTOR->Velocity_Planning.Pstart)))   //	[(结束位置 < 开始位置) && (处理过的真实角度pos >开始位置)]
+    {
+        M3508_MOTOR->TARGET_RPM = M3508_MOTOR->Velocity_Planning.Vstart; // TARGET_RPM = 开始的速度
+    }
+    else if (((M3508_MOTOR->Velocity_Planning.Pend > M3508_MOTOR->Velocity_Planning.Pstart) && (M3508_MOTOR->REAL_ANGLE > M3508_MOTOR->Velocity_Planning.Pend)) || //[(结束位置 > 开始位置) && (处理过的真实角度pos > 结束位置)]	||
+             ((M3508_MOTOR->Velocity_Planning.Pend < M3508_MOTOR->Velocity_Planning.Pstart) && (M3508_MOTOR->REAL_ANGLE < M3508_MOTOR->Velocity_Planning.Pend)))   //	[(结束位置 < 开始位置) && (处理过的真实角度pos < 结束位置)]
+    {
+        M3508_MOTOR->TARGET_RPM = M3508_MOTOR->Velocity_Planning.Vstart; // TARGET_RPM = 末尾的速度
+    }
+    else
+    {
+        S = ABS(M3508_MOTOR->REAL_ANGLE - M3508_MOTOR->Velocity_Planning.Pstart); // 开始位置
+
+        // 规划RPM
+        if (S < Sac)
+            M3508_MOTOR->TARGET_RPM = sqrt(2.0f * Aac * S + M3508_MOTOR->Velocity_Planning.Vstart * M3508_MOTOR->Velocity_Planning.Vstart); // 加速阶段
+        else if (S < (Sac + Sco))
+            M3508_MOTOR->TARGET_RPM = M3508_MOTOR->Velocity_Planning.Vmax; // 匀速阶段
+        else
+            M3508_MOTOR->TARGET_RPM = sqrt(M3508_MOTOR->Velocity_Planning.Vend * M3508_MOTOR->Velocity_Planning.Vend - 2.0f * Ade * ABS(Ssu - S)); // 减速阶段
+    }
+
+    // 分配合适的正负号
+    if (M3508_MOTOR->Velocity_Planning.Pend < M3508_MOTOR->Velocity_Planning.Pstart)
+        M3508_MOTOR->TARGET_RPM = -M3508_MOTOR->TARGET_RPM;
+    // 判断是否完成
+    if ((fabsf(M3508_MOTOR->REAL_ANGLE - M3508_MOTOR->Velocity_Planning.Pend)) < 5)
+    {
+        M3508_MOTOR->Velocity_Planning.done_flag = 1; // 设置标志位
+        M3508_MOTOR->TARGET_RPM = 0;
+    }
+
+    if ((fabsf(M3508_MOTOR->REAL_ANGLE - M3508_MOTOR->Velocity_Planning.Pend)) > 5)
+    {
+        M3508_MOTOR->Velocity_Planning.done_flag = 0;
+    }
 }

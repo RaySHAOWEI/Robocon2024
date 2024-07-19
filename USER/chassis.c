@@ -89,7 +89,6 @@ void chassis_stop(void)
 	ROBOT_CHASSI.Vx = 0;
 	ROBOT_CHASSI.Vy = 0;
 	ROBOT_CHASSI.Vw = 0;
-	Robot_Wheels_RPM_calculate();
 }
 
 /**
@@ -97,27 +96,27 @@ void chassis_stop(void)
  */
 void Free_Control(void)
 {
-	if (ABS(YaoGan_LEFT_X - 1500) > 100)
+	if (ABS(YaoGan_LEFT_X - 1500) > 50)
 	{
 		ROBOT_CHASSI.remote_x = ((YaoGan_LEFT_X - 1500.0f) / 500) * ROBOT_CHASSI.Vx_MAX;
 	}
-	else if (ABS(YaoGan_LEFT_X - 1500) <= 100)
+	else if (ABS(YaoGan_LEFT_X - 1500) <= 50)
 	{
 		ROBOT_CHASSI.remote_x = 0;
 	}
-	if (ABS(YaoGan_LEFT_Y - 1500) > 100)
+	if (ABS(YaoGan_LEFT_Y - 1500) > 50)
 	{
 		ROBOT_CHASSI.remote_y = ((YaoGan_LEFT_Y - 1500.0f) / 500) * ROBOT_CHASSI.Vy_MAX;
 	}
-	else if (ABS(YaoGan_LEFT_Y - 1500) <= 100)
+	else if (ABS(YaoGan_LEFT_Y - 1500) <= 50)
 	{
 		ROBOT_CHASSI.remote_y = 0;
 	}
-	if (ABS(YaoGan_RIGHT_X - 1500) > 100)
+	if (ABS(YaoGan_RIGHT_X - 1500) > 50)
 	{
 		ROBOT_CHASSI.remote_w = ((YaoGan_RIGHT_X - 1500.0f) / 500) * ROBOT_CHASSI.Vw_MAX;
 	}
-	else if (ABS(YaoGan_RIGHT_X - 1500) <= 100)
+	else if (ABS(YaoGan_RIGHT_X - 1500) <= 50)
 	{
 		ROBOT_CHASSI.remote_w = 0;
 	}
@@ -125,6 +124,10 @@ void Free_Control(void)
 	float COS, SIN;
 	COS = cos(ROBOT_CHASSI.world_w * PI / 180);
 	SIN = sin(ROBOT_CHASSI.world_w * PI / 180);
+
+	float fk = 0.1;
+	static float k_speed;
+	float dk = 0.001;
 
 	// 世界坐标系转换
 	if (ROBOT_CHASSI.World_Move_Flag == 1)
@@ -135,6 +138,24 @@ void Free_Control(void)
 	}
 	else
 	{
+		// 匀加速驱动
+		if (ROBOT_CHASSI.remote_x == 0 && ROBOT_CHASSI.remote_y == 0)
+		{
+			k_speed = fk;
+		}
+		else
+		{
+			if (k_speed < 1)
+			{
+				k_speed += dk;
+			}
+			else
+			{
+				k_speed = 1;
+			}
+		}
+//		ROBOT_CHASSI.Vx = k_speed * ROBOT_CHASSI.remote_x;
+//		ROBOT_CHASSI.Vy = k_speed * ROBOT_CHASSI.remote_y;
 		ROBOT_CHASSI.Vx = ROBOT_CHASSI.remote_x;
 		ROBOT_CHASSI.Vy = ROBOT_CHASSI.remote_y;
 		ROBOT_CHASSI.Vw = ROBOT_CHASSI.remote_w;

@@ -19,6 +19,22 @@
         "memory": "c",
         "sstream": "c",
         "chassis.h": "c",
-        "dt35.h": "c"
+        "dt35.h": "c",
+        "fsm.h": "c",
+        "istream": "c",
+        "ostream": "c",
+        "cctype": "c",
+        "cerrno": "c",
+        "clocale": "c",
+        "cmath": "c",
+        "cstdarg": "c",
+        "cstddef": "c",
+        "cstdint": "c",
+        "cstdlib": "c",
+        "cwchar": "c",
+        "cwctype": "c",
+        "exception": "c",
+        "new": "c",
+        "typeinfo": "c"
     }
 }

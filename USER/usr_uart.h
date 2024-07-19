@@ -12,14 +12,29 @@ extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
-extern DMA_HandleTypeDef hdma_uart4_rx;
-extern DMA_HandleTypeDef hdma_uart4_tx;
-extern DMA_HandleTypeDef hdma_uart5_rx;
-extern DMA_HandleTypeDef hdma_uart5_tx;
+extern UART_HandleTypeDef huart3;
+
+extern UART_HandleTypeDef huart6;
+
+// extern DMA_HandleTypeDef hdma_uart4_rx;
+// extern DMA_HandleTypeDef hdma_uart4_tx;
+// extern DMA_HandleTypeDef hdma_uart5_rx;
+// extern DMA_HandleTypeDef hdma_uart5_tx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart2_tx;
+extern DMA_HandleTypeDef hdma_usart3_rx;
+extern DMA_HandleTypeDef hdma_usart3_tx;
+
+extern DMA_HandleTypeDef hdma_usart6_rx;
+extern DMA_HandleTypeDef hdma_usart6_tx;
+
+extern int receflag1;
+extern int receflag2;
+
+extern HAL_StatusTypeDef send1flag;
+extern HAL_StatusTypeDef send2flag;
 
 #define Max_BUFF_Len 100
 #define Max_DATA_Len 50
@@ -35,7 +50,8 @@ typedef enum
     Action_data,  // action数据
     DT35_data,    // DT35数据
     Command_data, // 命令数据
-    debug_data    // 调试数据(电机数据可视化)
+    debug_data,   // 调试数据(电机数据可视化)
+    Keyboard_data // 键盘数据
 } DataMode;
 // 串口数据形式
 
@@ -63,6 +79,7 @@ typedef struct
 
 extern Usart_struct Usart1;
 extern Usart_struct Usart2;
+extern Usart_struct Usart3;
 extern Usart_struct Usart4;
 extern Usart_struct Usart5;
 
@@ -74,12 +91,15 @@ void Send_command(uint8_t cmd, uint8_t *data, uint16_t len);
 
 void Usart1_Init(void);
 void Usart2_Init(void);
+void Usart3_Init(void);
 void Uart4_Init(void);
 void Uart5_Init(void);
+void Usr_UART_Init(void);
 void processData(Usart_struct *data, uint16_t len);
 
 void action_analysis(Usart_struct *data);
 void DT35_analysis(Usart_struct *data);
 void command_analysis(Usart_struct *data);
+void Keyboard_analysis(Usart_struct *data);
 
 #endif // UPPER_TEST_USR_UART_H

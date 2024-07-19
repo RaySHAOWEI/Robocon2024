@@ -17,7 +17,9 @@ typedef enum
     SPEED_TARQUE_CONTROL_MODE,
     POSITION_TORQUE_MODE,
     POSITION_SPEED_LIMIT_MODE,
-    HOMEING_MODE
+    HOMEING_MODE,
+    SETTING_MODE,
+    VELOCITY_PLANNING_MODE,
 } Motor_Mode_e;
 
 typedef enum
@@ -30,7 +32,7 @@ typedef enum
     CAN_OTHER_ID = 0x1FF,
     M5_ID = 0x205,
     M6_ID = 0x206,
-    M7_ID = 0x207
+    M7_ID = 0x207,
 } Can_Msg_Id_e;
 
 /**
@@ -44,6 +46,36 @@ typedef struct
     int done_flag;         // 回零成功标志位
     int32_t cnt;
 } HOMING_MODE_TYPE;
+
+/**
+ * @brief 设置模式结构体
+ * 20240518许少威：复用回零模式，加个设置位置，可以让机械限位设置成任意角度
+ */
+typedef struct
+{
+    float Vel;             // 回零的速度，正负代表正转反转。根据实际情况设置。
+    int16_t TARGET_TORQUE; // 回零目标转矩，用电流表示
+    int done_flag;         // 回零成功标志位
+    int32_t cnt;
+    float SETTING_ANGLE;
+} SETTING_MODE_TYPE;
+
+/**
+ * @brief T型速度规划结构体
+ * @note
+ */
+typedef struct VELOCITY_PLANNING // 速度规划
+{
+    float Distance;
+    float Pstart;  // 开始位置
+    float Pend;    // 结束位置
+    float Vstart;  // 开始的速度           // 单位：RPM 绝对值
+    float Vmax;    // 最大的速度
+    float Vend;    // 末尾的速度
+    float Rac;     // 加速路程的比例
+    float Rde;     // 减速路程的比例
+    int done_flag; // 完成标志位，电机停下来的时候置1
+} VELOCITY_PLANNING;
 
 /**
  * @brief  电机种类  M3508、M2006和M6020
@@ -71,7 +103,12 @@ typedef struct
     int16_t TARGET_TORQUE; // 目标转矩，用电流表示（分时复用为限速值）
     float TARGET_RPM;      // 目标转速
 
-    HOMING_MODE_TYPE HomingMode; // 电机回零模式
+    int stop_cnt;  // 堵转计数器 堵转置1
+    int stop_flag; // 堵转标志位
+
+    VELOCITY_PLANNING Velocity_Planning; // 速度规划
+    HOMING_MODE_TYPE HomingMode;         // 电机回零模式
+    SETTING_MODE_TYPE SettingMode;       // 电机设置模式
 
     // 角度积分时用到下面变量
     float REAL_ANGLE;                  // 处理过的真实角度（必须用float）
@@ -94,6 +131,9 @@ int Position_Control(MOTOR_REAL_INFO *MOTOR_REAL_INFO, float Target_Pos);
 int Pos_Torque_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, uint16_t Target_Torque, float Target_Pos);
 int Pos_Velimit_Control(MOTOR_REAL_INFO *MOTO_REAL_INFO, float Target_Vel, float Target_Pos);
 void Homeing_Mode(MOTOR_REAL_INFO *RM_MOTOR, float homeing_vel, int16_t homeing_torque);
+void Setting_Mode(MOTOR_REAL_INFO *RM_MOTOR, float vel, int16_t torque, float angle);
+void Planning_Mode(MOTOR_REAL_INFO *M3508_MOTOR, float Pstart, float Pend, float Vstart, float Vmax, float Vend, float Rac, float Rde);
+void Velocity_Planning(MOTOR_REAL_INFO *M3508_MOTOR);
 
 // M3508返回的电机真实信息
 extern MOTOR_REAL_INFO can1motorRealInfo[7]; // can1

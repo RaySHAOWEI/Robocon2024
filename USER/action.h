@@ -9,7 +9,7 @@
 
 // ???
 #define INSTALL_ERROR_X 0.0
-#define INSTALL_ERROR_Y 88.0
+#define INSTALL_ERROR_Y 0.0
 
 typedef struct
 {
@@ -32,6 +32,15 @@ typedef struct
 
 extern ACTION_GL_POS ACTION_GL_POS_DATA;
 
+void action_data_analyse(void);
 void Update_Action_gl_position(float *value);
+
+void Update_J(float New);
+void Update_X(float New);
+void Update_Y(float New);
+void Update_ACTION(void);
+
+int action_calibration(void);
+int Action_calibration(void);
 
 #endif // INC_2024RC_B_R1_ACTION_H
