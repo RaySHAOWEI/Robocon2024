@@ -17,20 +17,20 @@ int update_action_put = 0;
 float yaw_disable = 0;
 int field = 0;
 int catch_ball_laser = 0;
-float tr90 = 0;
 int in2aera = 0;
 
 int once_flag1 = 0;
 int once_flag2 = 0;
 
+/**
+ * @brief 总状态机
+ * 通过SWA判断机器人的自动或者手动状态，然后调用相应的状态机
+ */
 void robot_fsm(void)
 {
     if (auto_state == AUTO_ENABLE)
     {
-        // 自动状态机
-        auto_fsm(field);
-        // 取球是否到位
-        tr90 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
+        auto_fsm(field); // 调用自动状态机
         if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1))
         {
             catch_ball_laser = 0; // 未到位标志
@@ -39,19 +39,18 @@ void robot_fsm(void)
         {
             catch_ball_laser = 1; // 后面取球到位标志
         }
-        action_reset();
-        // 将action重置  方便2区自瞄 以2区重启区为原点，利用激光数据差来直接赋值机器人世界坐标x y
-        // 对于w机器人偏航角，执行双激光矫正，重置为0
+        action_reset(); // 将action yaw角重置
     }
     else if (auto_state == AUTO_DISABLE)
     {
         ROBOT_CHASSI.plan_x = 0;
         ROBOT_CHASSI.plan_y = 0;
-        ROBOT_CHASSI.plan_w = 0;
+        ROBOT_CHASSI.plan_w = 0; // 自动路径规划失能
+
         once_flag1 = 0;
         once_flag2 = 0;
-        caculation_ok = 0;
-        robot_state_judge();
+        caculation_ok = 0;   // 各种标志位重置
+        robot_state_judge(); // 调用手动状态机
     }
     else
     {
@@ -59,13 +58,17 @@ void robot_fsm(void)
     }
 }
 
+/**
+ * @brief 手动状态机
+ * 判断SWA、SWB、SWC、SWD的状态，根据状态判断机器人的状态
+ */
 void robot_state_judge(void)
 {
     if (robot_state == ROBOT_STATE_INIT)
     {
         chassis_state = CHASSIS_DISABLE;
-        if (SWA != 0 && SWB != 0 && SWC != 0 && SWD != 0 && ACTION_GL_POS_DATA.POS_X != 0)
-        { // 确认航模初始化成功
+        if (SWA != 0 && SWB != 0 && SWC != 0 && SWD != 0 && ACTION_GL_POS_DATA.POS_X != 0) // 确认航模初始化和ACTION成功
+        {
             SWA_judge();
             SWB_judge();
             SWC_judge();
@@ -73,7 +76,7 @@ void robot_state_judge(void)
     }
     else
     {
-        if (SWA == 0 && ACTION_GL_POS_DATA.POS_X == 0)
+        if (SWA == 0 && ACTION_GL_POS_DATA.POS_X == 0) // 断联保护
         {
             robot_state = ROBOT_STATE_INIT;
         }

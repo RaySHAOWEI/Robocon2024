@@ -10,16 +10,16 @@
 // 驱动器工作模式
 typedef enum
 {
-    MOTO_OFF,
-    CURRENT_MODE,
-    SPEED_CONTROL_MODE,
-    POSITION_CONTROL_MODE,
-    SPEED_TARQUE_CONTROL_MODE,
-    POSITION_TORQUE_MODE,
-    POSITION_SPEED_LIMIT_MODE,
-    HOMEING_MODE,
-    SETTING_MODE,
-    VELOCITY_PLANNING_MODE,
+    MOTO_OFF,                  // 电机关闭
+    CURRENT_MODE,              // 电流模式(直接赋电流值)
+    SPEED_CONTROL_MODE,        // 速度模式
+    POSITION_CONTROL_MODE,     // 位置模式
+    SPEED_TARQUE_CONTROL_MODE, // 速度转矩模式
+    POSITION_TORQUE_MODE,      // 位置转矩模式
+    POSITION_SPEED_LIMIT_MODE, // 位置限速模式
+    HOMEING_MODE,              // 回零模式
+    SETTING_MODE,              // 限位设置模式（反回零模式）
+    VELOCITY_PLANNING_MODE,    // 速度规划模式
 } Motor_Mode_e;
 
 typedef enum

@@ -382,8 +382,8 @@ void Motor_Control(void)
 
         case POSITION_CONTROL_MODE: // 位置模式
         {
-            if (can1motorRealInfo[i].once_flag == 1)
-            {                                                                                                 // 单圈模式位置环（机械安装时注意角度，避免8192-0的跳变）
+            if (can1motorRealInfo[i].once_flag == 1) // 单圈模式位置环（机械安装时注意角度，避免8192-0的跳变）
+            {
                 pid_calc(&can1MOTOR_PID_POS[i], can1motorRealInfo[i].TARGET_POS, can1motorRealInfo[i].ANGLE); // 位置环
                 can1motorRealInfo[i].TARGET_RPM = can1MOTOR_PID_POS[i].output;
                 pid_calc(&can1MOTOR_PID_RPM[i], can1motorRealInfo[i].TARGET_RPM, can1motorRealInfo[i].RPM); // 速度环
@@ -437,7 +437,8 @@ void Motor_Control(void)
         {
             if (ABS(can1motorRealInfo[i].CURRENT) <= 1.5 * can1motorRealInfo[i].HomingMode.TARGET_TORQUE)
                 can1motorRealInfo[i].HomingMode.cnt = 0;
-            if (ABS(can1motorRealInfo[i].CURRENT) > 1.5 * can1motorRealInfo[i].HomingMode.TARGET_TORQUE || ABS(can1motorRealInfo[i].CURRENT) >= can1motorRealInfo[i].MotorMaxCurrent)
+            if (ABS(can1motorRealInfo[i].CURRENT) > 1.5 * can1motorRealInfo[i].HomingMode.TARGET_TORQUE ||
+                ABS(can1motorRealInfo[i].CURRENT) >= can1motorRealInfo[i].MotorMaxCurrent)
                 can1motorRealInfo[i].HomingMode.cnt++;
             if (can1motorRealInfo[i].HomingMode.cnt >= 30) // 计数30次
             {
@@ -453,7 +454,8 @@ void Motor_Control(void)
         {
             if (ABS(can1motorRealInfo[i].CURRENT) <= 1.5 * can1motorRealInfo[i].SettingMode.TARGET_TORQUE)
                 can1motorRealInfo[i].SettingMode.cnt = 0;
-            if (ABS(can1motorRealInfo[i].CURRENT) > 1.5 * can1motorRealInfo[i].SettingMode.TARGET_TORQUE || ABS(can1motorRealInfo[i].CURRENT) >= can1motorRealInfo[i].MotorMaxCurrent)
+            if (ABS(can1motorRealInfo[i].CURRENT) > 1.5 * can1motorRealInfo[i].SettingMode.TARGET_TORQUE ||
+                ABS(can1motorRealInfo[i].CURRENT) >= can1motorRealInfo[i].MotorMaxCurrent)
                 can1motorRealInfo[i].SettingMode.cnt++;
             if (can1motorRealInfo[i].SettingMode.cnt >= 30) // 计数30次
             {

@@ -14,7 +14,7 @@ typedef enum
 {
     AUTO_DISABLE,
     AUTO_ENABLE
-} AUTO_STATE; // 自动模式开关
+} AUTO_STATE; // 自动模式开关（第一层总状态机）
 typedef enum
 {
     ROBOT_STATE_INIT,      // 整车初始化（上层底盘都失能）
